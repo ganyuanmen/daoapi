@@ -6,6 +6,7 @@ import Logos from "./interface/Logo";
 import Register from "./interface/Register";
 import Tokens from "./interface/Tokens";
 import Utoken from "./interface/Utoken";
+import LogoNodejs from "./interface/Logo_nodejs";
 
 export default class daoApi {
 
@@ -56,7 +57,12 @@ export default class daoApi {
             this.commulate = new Commulate(this.web3, this.selectedAccount);
             this.iadd = new IADD(this.web3, this.selectedAccount,this.commulate);
             this.register = new Register(this.web3, this.selectedAccount);
+            
+            if(window && window.document)
             this.logo = new Logos(this.web3, this.selectedAccount);
+            else 
+            this.logo = new LogoNodejs(this.web3, this.selectedAccount);
+
             this.tokens = new Tokens(this.web3, this.selectedAccount);
             this.utoken = new Utoken(this.web3, this.selectedAccount);
             this.ethToToken = new EthToToken(this.web3, this.selectedAccount, this.utoken, this.commulate);
