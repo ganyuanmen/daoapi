@@ -75,3 +75,10 @@ export default class daoApi {
 
 
 }
+
+
+if(typeof window==='object') {
+    window.Daoapi=function(_web3, _selectAccount){
+        return new daoApi(_web3, _selectAccount)
+    }
+}
