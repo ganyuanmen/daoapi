@@ -9,6 +9,7 @@ import Utoken from "./interface/Utoken";
 import LogoNodejs from "./interface/Logo_nodejs";
 
 export default class daoApi {
+    static version='1.0.7';
 
     toWei(v) {
         let a = v.toString();
