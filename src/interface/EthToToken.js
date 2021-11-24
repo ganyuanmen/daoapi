@@ -1,4 +1,5 @@
-export default class EthToToken
+'use strict';
+class EthToToken
 {
     async ETHToExactToken(_ethmin,_utokenmin,_id,_eth) {
 
@@ -96,3 +97,4 @@ export default class EthToToken
     }
 }
 
+module.exports=EthToToken

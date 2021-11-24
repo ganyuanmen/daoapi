@@ -1,5 +1,5 @@
-
-export default class Utoken
+'use strict';
+ class Utoken
 {
     async getEthToNDAOInputPrice(_value) {
         let _eth=this.web3.utils.toWei(_value.toString(),'ether');
@@ -636,4 +636,4 @@ export default class Utoken
       }
   }
   
-  
+  module.exports=Utoken

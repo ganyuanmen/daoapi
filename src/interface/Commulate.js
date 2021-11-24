@@ -1,4 +1,5 @@
-export default class Commulate
+'use strict';
+class Commulate
 {
     
     async utokenToToken(_value,_id) {
@@ -352,3 +353,5 @@ export default class Commulate
 
     }
 }
+
+module.exports=Commulate

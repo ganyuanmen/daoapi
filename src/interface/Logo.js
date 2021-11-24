@@ -1,6 +1,7 @@
-import JSZip, { files } from 'jszip'
+'use strict';
+const JSZip= require('jszip')
 
-export default class Logos {
+ class Logos {
     async getLogo(id) {
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
         let re = await this.contract.methods.getFile(id).call({ from: this.selectedAccount });
@@ -347,3 +348,4 @@ export default class Logos {
     }
 }
 
+module.exports=Logos

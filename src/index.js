@@ -1,15 +1,16 @@
+'use strict';
+const Commulate = require("./interface/Commulate");
+const EthToToken = require("./interface/EthToToken");
+const IADD = require("./interface/IADD");
+const Logos = require("./interface/Logo");
+const Register = require("./interface/Register");
+const Tokens = require("./interface/Tokens");
+const Utoken = require("./interface/Utoken");
+const LogoNodejs = require("./interface/Logo_nodejs");
 
-import Commulate from "./interface/Commulate";
-import EthToToken from "./interface/EthToToken";
-import IADD from "./interface/IADD";
-import Logos from "./interface/Logo";
-import Register from "./interface/Register";
-import Tokens from "./interface/Tokens";
-import Utoken from "./interface/Utoken";
-import LogoNodejs from "./interface/Logo_nodejs";
+ class DaoApi {
 
-export default class daoApi {
-    static version='1.0.7';
+  
 
     toWei(v) {
         let a = v.toString();
@@ -53,6 +54,7 @@ export default class daoApi {
     }
 
     constructor(_web3, _selectAccount) {
+        this.version='1.0.8';
         this.web3 = _web3;
         this.selectedAccount = _selectAccount;
             this.commulate = new Commulate(this.web3, this.selectedAccount);
@@ -80,6 +82,10 @@ export default class daoApi {
 
 if(typeof window==='object') {
     window.Daoapi=function(_web3, _selectAccount){
-        return new daoApi(_web3, _selectAccount)
+        return new DaoApi(_web3, _selectAccount)
     }
+  
+    window.Daoapi.default= window.Daoapi;
 }
+
+module.exports=DaoApi

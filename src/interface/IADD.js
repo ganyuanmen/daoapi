@@ -1,4 +1,5 @@
-export default  class IADD
+'use strict';
+class IADD
 {
   
     async NDAOToToken(_mintoken,_token,_id) {
@@ -798,4 +799,4 @@ export default  class IADD
        }
    }
    
-   
+   module.exports=IADD

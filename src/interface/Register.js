@@ -1,4 +1,5 @@
-export default class Register
+'use strict';
+class Register
 {
     async  create(_address,_daoName,_daoShortName,_remark) {
        
@@ -679,3 +680,4 @@ export default class Register
     }
 }
 
+module.exports=Register

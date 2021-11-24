@@ -1,4 +1,5 @@
-export default  class Tokens
+'use strict';
+class Tokens
 {
    
     async allowance(_id,_owneraddress,_spenneraddress) {
@@ -953,3 +954,4 @@ export default  class Tokens
     }
 }
 
+module.exports=Tokens
