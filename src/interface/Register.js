@@ -77,6 +77,7 @@ class Register
                         "transactionIndex":data.transactionIndex,
                         "data": {
                             "name": data.returnValues._name,
+                            "daoTime":data.returnValues[5],
                             "symbol": data.returnValues._symbol,
                             "describe": data.returnValues._dsc,
                             "managerAddress": data.returnValues.manager,
