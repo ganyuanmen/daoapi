@@ -102,7 +102,7 @@ const  JSZip= require('jszip')
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
         this.contract.events.SetLogo({
             filter: {},
-            fromBlock: _this.setMaxBlock, toBlock: 'latest'
+            fromBlock: _this.setMaxBlock
         }, function (_error, data) {
 
             if (data.blockNumber > _this.setMaxBlock) {
