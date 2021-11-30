@@ -1,6 +1,6 @@
 {
   "name": "daoapi",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "道易程 api",
   "main": "./src/index.js",
   "scripts": {
