@@ -54,7 +54,7 @@ const LogoNodejs = require("./interface/Logo_nodejs");
     }
 
     constructor(_web3, _selectAccount) {
-        this.version='1.0.8';
+        this.version='1.0.11';
         this.web3 = _web3;
         this.selectedAccount = _selectAccount;
             this.commulate = new Commulate(this.web3, this.selectedAccount);
