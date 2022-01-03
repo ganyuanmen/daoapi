@@ -43,56 +43,87 @@ class EthToToken
         this.commulate=_commulate;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address='0x71EC469Cc6C2dc4013331Ae31074BBDCb1238D09';      
-        this.abi=
-        [
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "_IADD",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "_uToken",
-                        "type": "address"
-                    }
-                ],
-                "stateMutability": "nonpayable",
-                "type": "constructor"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "minamount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "minNdaoAmount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "ETHToExactToken",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "payable",
-                "type": "function"
-            }
-        ]
-     
+        this.address='0x5a5D209B4a86Dc3dCc5c71fE8b4D19dCC3c8D891';      
+      this.abi=[
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_IADD",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_uToken",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "minamount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "minNdaoAmount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "ETHToExactToken",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "IADDAddress",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "approve",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "uTokenAddress",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
 
     }
 }

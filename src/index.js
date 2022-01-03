@@ -7,10 +7,23 @@ const Register = require("./interface/Register");
 const Tokens = require("./interface/Tokens");
 const Utoken = require("./interface/Utoken");
 const LogoNodejs = require("./interface/Logo_nodejs");
+const Org=require("./interface/Org");
+const GetOrgId=require("./interface/GetOrgId");
+const Os=require("./interface/Os");
+const Deth=require("./interface/Deth");
+const Vote=require("./interface/Vote");
 
  class DaoApi {
 
-  
+    unsub()
+    {
+        this.os.unsub();
+        this.logo.unsub();
+        this.org.unsub();
+        this.tokens.unsub();
+        this.iadd.unsub();
+        this.utoken.unsub();
+    }
 
     toWei(v) {
         let a = v.toString();
@@ -57,21 +70,28 @@ const LogoNodejs = require("./interface/Logo_nodejs");
         this.version='1.0.11';
         this.web3 = _web3;
         this.selectedAccount = _selectAccount;
-            this.commulate = new Commulate(this.web3, this.selectedAccount);
-            this.iadd = new IADD(this.web3, this.selectedAccount,this.commulate);
-            this.register = new Register(this.web3, this.selectedAccount);
+        this.commulate = new Commulate(this.web3, this.selectedAccount);
+        this.iadd = new IADD(this.web3, this.selectedAccount,this.commulate);
+        this.register = new Register(this.web3, this.selectedAccount);
 
-            if(typeof window==='object') {
-                this.logo = new Logos(this.web3, this.selectedAccount); 
-            }
-            else 
-            {
-                this.logo = new LogoNodejs(this.web3, this.selectedAccount);
-            }
-            
-            this.tokens = new Tokens(this.web3, this.selectedAccount);
-            this.utoken = new Utoken(this.web3, this.selectedAccount);
-            this.ethToToken = new EthToToken(this.web3, this.selectedAccount, this.utoken, this.commulate);
+        if(typeof window==='object') {
+            this.logo = new Logos(this.web3, this.selectedAccount); 
+        }
+        else 
+        {
+            this.logo = new LogoNodejs(this.web3, this.selectedAccount);
+        }
+        
+        this.tokens = new Tokens(this.web3, this.selectedAccount);
+        this.utoken = new Utoken(this.web3, this.selectedAccount);
+        this.ethToToken = new EthToToken(this.web3, this.selectedAccount, this.utoken, this.commulate);
+        this.getOrgId = new GetOrgId(this.web3, this.selectedAccount);
+
+        this.org = new Org(this.web3, this.selectedAccount);
+        this.os = new Os(this.web3, this.selectedAccount,this.getOrgId);
+        this.deth = new Deth(this.web3, this.selectedAccount);
+        this.vote = new Vote(this.web3, this.selectedAccount);
+
 
 
     }

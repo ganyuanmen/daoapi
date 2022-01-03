@@ -96,70 +96,90 @@ const  JSZip= require('jszip')
 
     }
 
+    unsub()
+    {
+        try{
+            this.eventObj1.unsubscribe();
+            if(this.eventObj2 && this.eventObj2.unsubscribe)
+            {
+                this.eventObj2.unsubscribe();
+            }
+            if(this.eventObj1 && this.eventObj1.unsubscribe)
+            {
+                this.eventObj1.unsubscribe();
+            }
+            this.eventObj2=null;
+            this.eventObj1=null;
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
     setLogoEvent(maxBlockNumber, callbackFun) {
         const _this = this;
-        _this.setMaxBlock = maxBlockNumber;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-        this.contract.events.SetLogo({
+       
+        this.eventObj1=this.contract.events.SetLogo({
             filter: {},
-            fromBlock: _this.setMaxBlock
+            fromBlock:maxBlockNumber+1
         }, function (_error, data) {
-
-            if (data.blockNumber > _this.setMaxBlock) {
-                _this.getLogo(data.returnValues.id).then(e => {
-                    callbackFun.call(null, {
-                        "address": data.address,
-                        "blockHash": data.blockHash,
-                        "blockNumber": data.blockNumber,
-                        "transactionHash": data.transactionHash,
-                        "transactionIndex": data.transactionIndex,
-                        "data": {
-                            "daoId": data.returnValues.id,
-                            "src": e.src,
-                            "timestamp": data.returnValues.time
-                        },
-                        "event": "setLogoEvent"
-                    })
-                    _this.setMaxBlock = data.blockNumber;
-                })
-
+            if(!data || !data.returnValues) {
+                _this.p("setLogoEvent error");
+                return;
             }
+            _this.getLogo(data.returnValues.id).then(e => {
+                callbackFun.call(null, {
+                    "address": data.address,
+                    "blockHash": data.blockHash,
+                    "blockNumber": data.blockNumber,
+                    "transactionHash": data.transactionHash,
+                    "transactionIndex": data.transactionIndex,
+                    "data": {
+                        "daoId": data.returnValues.id,
+                        "src": e.src,
+                        "timestamp": data.returnValues.time
+                    },
+                    "event": "setLogoEvent"
+                })
+            })
         })
-
     }
+
+    p(k)
+    {
+        var myDate = new Date();
+        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
+    }
+
     changeLogoEvent(maxBlockNumber, callbackFun) {
         const _this = this;
-        _this.changeMaxBlock = maxBlockNumber;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-        this.contract.events.ChangeLogo({
+       
+        this.eventObj2=this.contract.events.ChangeLogo({
             filter: {},
-            fromBlock: _this.changeMaxBlock,
+            fromBlock: maxBlockNumber+1
         }, function (_error, data) {
-
-            if (data.blockNumber > _this.changeMaxBlock) {
-                _this.getLogo(data.returnValues.id).then(e => {
-                    callbackFun.call(null, {
-                        "address": data.address,
-                        "blockHash": data.blockHash,
-                        "blockNumber": data.blockNumber,
-                        "transactionHash": data.transactionHash,
-                        "transactionIndex": data.transactionIndex,
-                        "data": {
-                            "daoId": data.returnValues.id,
-                            "src": e.src,
-                            "timestamp": data.returnValues.time
-                        },
-                        "event": "changeLogoEvent"
-                    })
-                    _this.changeMaxBlock = data.blockNumber;
-                })
-
+              if(!data || !data.returnValues) {
+                _this.p("changeLogoEvent error");
+                return;
             }
+            _this.getLogo(data.returnValues.id).then(e => {
+                callbackFun.call(null, {
+                    "address": data.address,
+                    "blockHash": data.blockHash,
+                    "blockNumber": data.blockNumber,
+                    "transactionHash": data.transactionHash,
+                    "transactionIndex": data.transactionIndex,
+                    "data": {
+                        "daoId": data.returnValues.id,
+                        "src": e.src,
+                        "timestamp": data.returnValues.time
+                    },
+                    "event": "changeLogoEvent"
+                })
+            })   
         })
-
     }
-
-
 
     setAddress(_address) {
         this.address = _address;
@@ -170,11 +190,12 @@ const  JSZip= require('jszip')
     constructor(_web3, _selectAccount) {
         this.web3 = _web3;
         this.contract = undefined;
-        this.setMaxBlock = 0;
-        this.changeMaxBlock = 0;
+        this.eventObj1=undefined;
+        this.eventObj2=undefined
+
         this.selectedAccount = _selectAccount;
-        this.address = '0x973369d6E1c51d04eB21455E2de5B1435df34510';
-        this.abi = [
+        this.address = '0x53C851381D30631C106969D0a02a1fADC7A71295';
+        this.abi=[
             {
                 "inputs": [
                     {

@@ -95,16 +95,51 @@ class IADD
         return {utoken: parseFloat(this.web3.utils.fromWei(this.getReal(result.uToken),'ether')),utokenWei:this.getReal(result.uToken)};
     
     }
+    unsub()
+    {
+        try{
+            if(this.u2tObj && this.u2tObj.unsubscribe)
+            {
+                this.u2tObj.unsubscribe();
+            }
+            if(this.t2uObj && this.t2uObj.unsubscribe)
+            {
+                this.t2uObj.unsubscribe();
+            }
+             if(this.t2tObj && this.t2tObj.unsubscribe)
+            {
+                this.t2tObj.unsubscribe();
+            }
+            this.u2tObj=null;
+            this.t2uObj=null;
+            this.t2tObj=null;
 
+
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    p(k)
+    {
+        var myDate = new Date();
+        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
+    }
     utokenTotokenEvent(maxBlockNumber,callbackFun) {
         const _this = this;
-        _this.maxu2t=maxBlockNumber;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
-        this.contract.events.UToToken({
+        
+        this.u2tObj=this.contract.events.UToToken({
             filter: {}, 
-            fromBlock: _this.maxu2t,
+            fromBlock: maxBlockNumber+1
         }, function (_error, data) {
-            if(data.blockNumber>_this.maxu2t) {
+           
+            if(!data || !data.returnValues) {
+                _this.p("utokenTotokenEvent error");
+                return;
+            }
+            _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
                 callbackFun.call(null,{                  
                     "address": data.address,
                     "blockHash": data.blockHash,
@@ -114,76 +149,88 @@ class IADD
                     "data": {
                         "from": data.returnValues.spender,
                         "to": data.returnValues.to,
+                        "swap_time":ee.timestamp,
                         "tokenId":data.returnValues.id,
                         "utokenWei":data.returnValues.uAmount,
                         "tokenWei":data.returnValues.tokenAmount,
-                        "utoken":parseFloat(_this.web3.utils.fromWei(data.returnValues.uAmount,'ether')),
-                        "token":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether'))
+                        "utoken":parseFloat(_this.web3.utils.fromWei(data.returnValues.uAmount,'ether')).toFixed(4),
+                        "token":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether')).toFixed(4)
                     },
                     "event": "utokenTotokenEvent"})
-                 _this.maxu2t=data.blockNumber;
-             }
+            })
+
+          
         })
     }
 
     tokenToUtokenEvent(maxBlockNumber,callbackFun) {
         const _this = this;
-        _this.maxt2u=maxBlockNumber;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
-        this.contract.events.TokenToU({
+       
+        this.t2uObj=this.contract.events.TokenToU({
             filter: {}, 
-            fromBlock: _this.maxt2u,
-        }, function (_error, data) {
-            if(data.blockNumber>_this.maxt2u) {
-                callbackFun.call(null,{                  
-                    "address": data.address,
-                    "blockHash": data.blockHash,
-                    "blockNumber": data.blockNumber,
-                    "transactionHash": data.transactionHash,
-                    "transactionIndex":data.transactionIndex,
-                    "data": {
-                        "from": data.returnValues.spender,
-                        "to": data.returnValues.to,
-                        "tokenId":data.returnValues.id,
-                        "utokenWei":data.returnValues.uAmount,
-                        "tokenWei":data.returnValues.tokenAmount,
-                        "utoken":parseFloat(_this.web3.utils.fromWei(data.returnValues.uAmount,'ether')),
-                        "token":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether'))
-                    },
-                    "event": "tokenToUtokenEvent"})
-                 _this.maxt2u=data.blockNumber;
-             }
+            fromBlock: maxBlockNumber+1
+        }, function (_error, data) {  
+          
+            if(!data || !data.returnValues) {
+                _this.p("tokenToUtokenEvent error");
+                return;
+            }   
+            _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
+            callbackFun.call(null,{                  
+                "address": data.address,
+                "blockHash": data.blockHash,
+                "blockNumber": data.blockNumber,
+                "transactionHash": data.transactionHash,
+                "transactionIndex":data.transactionIndex,
+                "data": {
+                    "from": data.returnValues.spender,
+                    "to": data.returnValues.to,
+                    "swap_time":ee.timestamp,
+                    "tokenId":data.returnValues.id,
+                    "utokenWei":data.returnValues.uAmount,
+                    "tokenWei":data.returnValues.tokenAmount,
+                    "utoken":parseFloat(_this.web3.utils.fromWei(data.returnValues.uAmount,'ether')).toFixed(4),
+                    "token":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether')).toFixed(4)
+                },
+                "event": "tokenToUtokenEvent"})
+            })
         })
     }
 
     tokenTotokenEvent(maxBlockNumber,callbackFun) {
         const _this = this;
-        _this.maxt2t=maxBlockNumber;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
-        this.contract.events.ETokenToToken({
+      
+        this.t2tObj=this.contract.events.ETokenToToken({
             filter: {}, 
-            fromBlock: _this.maxt2t,
-        }, function (_error, data) {
-            if(data.blockNumber>_this.maxt2t) {
-                callbackFun.call(null,{                  
-                    "address": data.address,
-                    "blockHash": data.blockHash,
-                    "blockNumber": data.blockNumber,
-                    "transactionHash": data.transactionHash,
-                    "transactionIndex":data.transactionIndex,
-                    "data": {
-                        "from": data.returnValues.spender,
-                        "to": data.returnValues.to,
-                        "fromTokenId":data.returnValues.id,
-                        "toTokenId":data.returnValues.swapid,
-                        "fromtokenWei":data.returnValues.tokenAmount,
-                        "toTokenWei":data.returnValues.swapTokenAmount,
-                        "fromToken":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether')),
-                        "toToken":parseFloat(_this.web3.utils.fromWei(data.returnValues.swapTokenAmount,'ether'))
-                    },
-                    "event": "tokenTotokenEvent"})
-                 _this.maxt2t=data.blockNumber;
-             }
+            fromBlock: maxBlockNumber+1
+        }, function (_error, data) {  
+            
+            if(!data || !data.returnValues) {
+                _this.p("tokenTotokenEvent error");
+                return;
+            }   
+            _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
+            callbackFun.call(null,{                  
+                "address": data.address,
+                "blockHash": data.blockHash,
+                "blockNumber": data.blockNumber,
+                "transactionHash": data.transactionHash,
+                "transactionIndex":data.transactionIndex,
+                "data": {
+                    "from": data.returnValues.spender,
+                    "to": data.returnValues.to,
+                    "swap_time":ee.timestamp,
+                    "fromTokenId":data.returnValues.id,
+                    "toTokenId":data.returnValues.swapid,
+                    "fromtokenWei":data.returnValues.tokenAmount,
+                    "toTokenWei":data.returnValues.swapTokenAmount,
+                    "fromToken":parseFloat(_this.web3.utils.fromWei(data.returnValues.tokenAmount,'ether')).toFixed(4),
+                    "toToken":parseFloat(_this.web3.utils.fromWei(data.returnValues.swapTokenAmount,'ether')).toFixed(4)
+                },
+                "event": "tokenTotokenEvent"})
+            })
         })
     }
 
@@ -200,602 +247,601 @@ class IADD
       
         this.commulate=_commulate;
         this.web3=_web3;
+        this.u2tObj=undefined;
+        this.t2uObj=undefined;
+        this.t2tObj=undefined;
         this.contract=undefined;
-        this.maxu2t=0;
-        this.maxt2u=0;
-        this.maxt2t=0;
         this.selectedAccount=_selectAccount;
-        this.address='0x9752AE638E7f62dcB802cC0755570B1af528b6E8';
+        this.address='0xc07EA5a5Ffa66585862fE1b96e1Fa81E7aD8D1a5';
         this.abi=[
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "_total_supply",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "_initUToken",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_uTokenAddress",
-                       "type": "address"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_register",
-                       "type": "address"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_tokenAddress",
-                       "type": "address"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_feeTaker",
-                       "type": "address"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_global",
-                       "type": "address"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "constructor"
-           },
-           {
-               "anonymous": false,
-               "inputs": [
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "spender",
-                       "type": "address"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "ethAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "swapTokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "EETHToToken",
-               "type": "event"
-           },
-           {
-               "anonymous": false,
-               "inputs": [
-                   {
-                       "indexed": false,
-                       "internalType": "address",
-                       "name": "spender",
-                       "type": "address"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "swapTokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "uint256",
-                       "name": "swapid",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "to",
-                       "type": "address"
-                   }
-               ],
-               "name": "ETokenToToken",
-               "type": "event"
-           },
-           {
-               "anonymous": false,
-               "inputs": [
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "spender",
-                       "type": "address"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "uAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "to",
-                       "type": "address"
-                   }
-               ],
-               "name": "TokenToU",
-               "type": "event"
-           },
-           {
-               "anonymous": false,
-               "inputs": [
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "spender",
-                       "type": "address"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "uAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": false,
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "indexed": true,
-                       "internalType": "address",
-                       "name": "to",
-                       "type": "address"
-                   }
-               ],
-               "name": "UToToken",
-               "type": "event"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "maxAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "NDAOToExactToken",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "minamount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "ndaoAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "NDAOToToken",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "token_out_amount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "NDAOToTokenOutputPrice",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "maxAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "ndaoAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "TokenToExactNDAO",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "maxAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id1",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id2",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "TokenToExactToken",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "minamount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "TokenToNDAO",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "ndao_out_amount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "TokenToNDAOOutputPrice",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "minamount1",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "minamount2",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "TokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id1",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id2",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "address",
-                       "name": "_msg",
-                       "type": "address"
-                   }
-               ],
-               "name": "TokenToToken",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [],
-               "name": "getFee",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "getPool",
-               "outputs": [
-                   {
-                       "components": [
-                           {
-                               "internalType": "uint256",
-                               "name": "supply",
-                               "type": "uint256"
-                           },
-                           {
-                               "internalType": "uint256",
-                               "name": "uToken",
-                               "type": "uint256"
-                           }
-                       ],
-                       "internalType": "struct IADD.Pool",
-                       "name": "",
-                       "type": "tuple"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "ndaoAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "getPowerPoolPriceNDAOToToken",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "tokenAmount",
-                       "type": "uint256"
-                   },
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "getPowerPoolPriceTokenToNDAO",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "getTokenFee",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "id",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "registerPool",
-               "outputs": [],
-               "stateMutability": "nonpayable",
-               "type": "function"
-           },
-           {
-               "inputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "name": "tokenFee",
-               "outputs": [
-                   {
-                       "internalType": "uint256",
-                       "name": "",
-                       "type": "uint256"
-                   }
-               ],
-               "stateMutability": "view",
-               "type": "function"
-           }
-       ]
-       
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_total_supply",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_initUToken",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_uTokenAddress",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_register",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_tokenAddress",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_feeTaker",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_global",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "ethAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "swapTokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "EETHToToken",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "swapTokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "swapid",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    }
+                ],
+                "name": "ETokenToToken",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "uAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    }
+                ],
+                "name": "TokenToU",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "uAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    }
+                ],
+                "name": "UToToken",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "maxAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "NDAOToExactToken",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "minamount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "ndaoAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "NDAOToToken",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "token_out_amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "NDAOToTokenOutputPrice",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "maxAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "ndaoAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "TokenToExactNDAO",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "maxAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id1",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id2",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "TokenToExactToken",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "minamount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "TokenToNDAO",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "ndao_out_amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "TokenToNDAOOutputPrice",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "minamount1",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "minamount2",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "TokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id1",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id2",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_msg",
+                        "type": "address"
+                    }
+                ],
+                "name": "TokenToToken",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getFee",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "getPool",
+                "outputs": [
+                    {
+                        "components": [
+                            {
+                                "internalType": "uint256",
+                                "name": "supply",
+                                "type": "uint256"
+                            },
+                            {
+                                "internalType": "uint256",
+                                "name": "uToken",
+                                "type": "uint256"
+                            }
+                        ],
+                        "internalType": "struct IADD.Pool",
+                        "name": "",
+                        "type": "tuple"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "ndaoAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "getPowerPoolPriceNDAOToToken",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "tokenAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "getPowerPoolPriceTokenToNDAO",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "getTokenFee",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "registerPool",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "tokenFee",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ]
        }
    }
    
