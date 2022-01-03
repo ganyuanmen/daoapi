@@ -1,5 +1,5 @@
 
-export default class Vote
+class Vote
 {
     async  addPro(_address1,_addressapp,_address2,_status,_data) {    
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});   

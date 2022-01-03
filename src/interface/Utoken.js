@@ -37,7 +37,7 @@
 
     async swap(v) {
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
-        const etherValue = this.web3.utils.toWei(v, 'ether');
+        const etherValue = this.web3.utils.toWei(v.toString(), 'ether');
         let re = await this.contract.methods.swap().send({from: this.selectedAccount, value: this.web3.utils.toHex(etherValue)});
         return re;
     }
