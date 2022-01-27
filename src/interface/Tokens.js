@@ -1,4 +1,5 @@
 'use strict';
+const daolog = require("../utils");
 class Tokens
 {
     async getIsIssue(idar) {
@@ -56,13 +57,12 @@ class Tokens
     async balanceOf(_id,_address) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.balanceOf(_id,_address).call({from: this.selectedAccount});
-        return {token: parseFloat(this.web3.utils.fromWei(result,'ether')),tokenWei:result};
+        return {token: this.web3.utils.fromWei(result,'ether'),tokenWei:result};
 
     }
 
     async issue(id) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
-        console.log(this.contract)
         let result= await this.contract.methods.issue(id).send({from: this.selectedAccount});
         return result;
 
@@ -76,9 +76,9 @@ class Tokens
             filter: {}, 
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {   
-            console.log(data);
             if(!data || !data.returnValues) {
-                _this.p("publishTokenEvent error");
+                daolog.log("publishTokenEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }        
             callbackFun.call(null,{                  
@@ -109,11 +109,7 @@ class Tokens
         }
     }
 
-    p(k)
-    {
-        var myDate = new Date();
-        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-    }
+
     setAddress(_address)
     {
         this.address=_address;
@@ -122,12 +118,14 @@ class Tokens
     {
         this.abi=_abi;
     }
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address,_para) {
         this.web3=_web3;
         this.contract=undefined;
         this.tObj=undefined;
+        this.para=_para;
         this.selectedAccount=_selectAccount;
-        this.address='0x5E0Ba9faEB8F5334Bf14c54f30665029175B5e30';
+        this.address=_address;
+      //  console.log("----Token-------->"+this.address);
         this.abi=[
             {
                 "inputs": [

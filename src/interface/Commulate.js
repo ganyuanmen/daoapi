@@ -1,30 +1,48 @@
 'use strict';
 class Commulate
 {
-    
-    async utokenToToken(_value,_id) {
-        let _shu=this.web3.utils.toWei(_value.toString(),'ether');
+    // w开头 以不损失精度为由，直接传wei, 不再转换
+    async wutokenToToken(_shu,_id) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.NDAOToToken('0',_shu,_id).call({from: this.selectedAccount});
-        return {inAmountWei:_shu,outAmountWei: result,inAmount:parseFloat(_value.toString()),outAmount:parseFloat(this.web3.utils.fromWei(result,'ether'))};
+        return {inAmountWei:_shu,outAmountWei: result,inAmount:this.web3.utils.fromWei(_shu,'ether'),outAmount:this.web3.utils.fromWei(result,'ether')};
+    }
+    
+    async wtokenToUtoken(_shu,_id) {
+        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+        let result= await this.contract.methods.TokenToNDAO('0',_shu,_id).call({from: this.selectedAccount});
+        return {inAmountWei:_shu,outAmountWei: result,inAmount:this.web3.utils.fromWei(_shu,'ether'),outAmount:this.web3.utils.fromWei(result,'ether')};
+    }
+
+    async wtokenToToken(_shu,_id1,_id2) {
+        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+        let result= await this.contract.methods.TokenToToken('0','0',_shu,_id1,_id2).call({from: this.selectedAccount});
+        return {inAmountWei:_shu,outAmountWei: result[1],inAmount:this.web3.utils.fromWei(_shu,'ether'),outAmount:this.web3.utils.fromWei(result[1],'ether')};
+    }
+//---------------------------------------------------------
+    async utokenToToken(_value,_id) {
+        let _shu=this.web3.utils.toWei(_value+'','ether');
+        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+        let result= await this.contract.methods.NDAOToToken('0',_shu,_id).call({from: this.selectedAccount});
+        return {inAmountWei:_shu,outAmountWei: result,inAmount:parseFloat(_value+''),outAmount:this.web3.utils.fromWei(result,'ether')};
     }
     
     async tokenToUtoken(_value,_id) {
-        let _shu=this.web3.utils.toWei(_value.toString(),'ether');
+        let _shu=this.web3.utils.toWei(_value+'','ether');
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.TokenToNDAO('0',_shu,_id).call({from: this.selectedAccount});
-        return {inAmountWei:_shu,outAmountWei: result,inAmount:parseFloat(_value.toString()),outAmount:parseFloat(this.web3.utils.fromWei(result,'ether'))};
+        return {inAmountWei:_shu,outAmountWei: result,inAmount:parseFloat(_value+''),outAmount:this.web3.utils.fromWei(result,'ether')};
     }
 
     async tokenToToken(_value,_id1,_id2) {
-        let _shu=this.web3.utils.toWei(_value.toString(),'ether');
+        let _shu=this.web3.utils.toWei(_value+'','ether');
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.TokenToToken('0','0',_shu,_id1,_id2).call({from: this.selectedAccount});
-        return {inAmountWei:_shu,outAmountWei: result[1],inAmount:parseFloat(_value.toString()),outAmount:parseFloat(this.web3.utils.fromWei(result[1],'ether'))};
+        return {inAmountWei:_shu,outAmountWei: result[1],inAmount:parseFloat(_value+''),outAmount:this.web3.utils.fromWei(result[1],'ether')};
     }
 
     async _tokenToToken(_value,_id1,_id2) {
-        let _shu=this.web3.utils.toWei(_value.toString(),'ether');
+        let _shu=this.web3.utils.toWei(_value+'','ether');
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.TokenToToken('0','0',_shu,_id1,_id2).call({from: this.selectedAccount});
         return result;
@@ -41,11 +59,12 @@ class Commulate
         this.abi=_abi;
     }
     
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address) {
         this.web3=_web3;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address='0x52107f97bCa059CEfa1008DC70Cd913A44Dd8708';      
+        this.address=_address;
+       // console.log("----Commulate-------->"+this.address);
        this.abi=[
         {
             "inputs": [

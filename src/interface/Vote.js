@@ -1,11 +1,37 @@
 
 class Vote
 {
-    async  addPro(_address1,_addressapp,_address2,_status,_data) {    
-        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});   
-        let result = await this.contract.methods.addPro([_address1,_addressapp,_address2,_status,_data]).send({from: this.selectedAccount});
+  
+    async  addPro(_proName,_address1,_addressapp,_address2,_daoId,_status,_data,_voteaddress) {    
+       // if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});   
+       let _voteContract=new this.web3.eth.Contract(this.abi,_voteaddress , {from: this.selectedAccount});   
+        let result = await _voteContract.methods.addPro([_proName,_address1,_addressapp,_address2,_daoId,_status,_data]).send({from: this.selectedAccount});
         return result;
    }
+
+   
+   async  voteTo(_proId,_voteaddress) {    
+   // if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});   
+   let _voteContract=new this.web3.eth.Contract(this.abi,_voteaddress , {from: this.selectedAccount});   
+    let result = await _voteContract.methods.voteTo(_proId).send({from: this.selectedAccount});
+    return result;
+}
+
+async getPro(_index,_voteaddress) {
+    let _voteContract=new this.web3.eth.Contract(this.abi,_voteaddress , {from: this.selectedAccount});   
+    let result= await _voteContract.methods.getPro(_index).call({from: this.selectedAccount});
+    return result;
+}
+
+
+
+ 
+async  exec(_proId,_voteaddress) {    
+    //if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});   
+    let _voteContract=new this.web3.eth.Contract(this.abi,_voteaddress , {from: this.selectedAccount});   
+    let result = await _voteContract.methods.exec(_proId).send({from: this.selectedAccount,gas:2300000 });
+    return result;
+}
 
    setAddress(_address)
     {
@@ -16,18 +42,32 @@ class Vote
         this.abi=_abi;
     }
 
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address) {
         this.web3=_web3;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;    
-
-        this.address='0xdda565a1f1679e774c61189085516C5885cEA579';
+        this.checkVoteObj=undefined;
+        this.applicationObj=undefined;
+        this.daoinfoObj=undefined;
+        this.versionObj=undefined;
+        this.address=_address;
+     //   console.log("---Vote--------->"+this.address);
         this.abi=[
             {
                 "inputs": [
                     {
                         "internalType": "address",
                         "name": "_deth",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_eventSum",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_global",
                         "type": "address"
                     }
                 ],
@@ -90,6 +130,11 @@ class Vote
                     {
                         "components": [
                             {
+                                "internalType": "string",
+                                "name": "name",
+                                "type": "string"
+                            },
+                            {
                                 "internalType": "address",
                                 "name": "component",
                                 "type": "address"
@@ -103,6 +148,11 @@ class Vote
                                 "internalType": "address",
                                 "name": "cause",
                                 "type": "address"
+                            },
+                            {
+                                "internalType": "uint32",
+                                "name": "daoId",
+                                "type": "uint32"
                             },
                             {
                                 "internalType": "bool",
@@ -139,6 +189,19 @@ class Vote
                 "type": "function"
             },
             {
+                "inputs": [],
+                "name": "eventSum",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
                 "inputs": [
                     {
                         "internalType": "uint256",
@@ -164,6 +227,11 @@ class Vote
                     {
                         "components": [
                             {
+                                "internalType": "string",
+                                "name": "name",
+                                "type": "string"
+                            },
+                            {
                                 "internalType": "address",
                                 "name": "component",
                                 "type": "address"
@@ -177,6 +245,11 @@ class Vote
                                 "internalType": "address",
                                 "name": "cause",
                                 "type": "address"
+                            },
+                            {
+                                "internalType": "uint32",
+                                "name": "daoId",
+                                "type": "uint32"
                             },
                             {
                                 "internalType": "bool",
@@ -230,6 +303,19 @@ class Vote
                 "type": "function"
             },
             {
+                "inputs": [],
+                "name": "global",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
                 "inputs": [
                     {
                         "internalType": "address",
@@ -274,6 +360,25 @@ class Vote
                     }
                 ],
                 "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "isExec",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
                 "type": "function"
             },
             {

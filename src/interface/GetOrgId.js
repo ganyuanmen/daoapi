@@ -18,12 +18,13 @@ class GetOrgId
     }
 
 
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address) {
         this.web3=_web3;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;    
 
-        this.address='0x776c1D993aE1CA06eDFD297D7e99379b1739647f';
+        this.address=_address;
+      //  console.log("------GetOrgId------>"+this.address);
         this.abi=[
             {
                 "inputs": [

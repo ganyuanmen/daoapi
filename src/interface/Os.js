@@ -1,3 +1,4 @@
+const daolog = require("../utils");
  class Os
 {
     async  create(_address,_daoname,_symbol,_dsc,_istoken,_orgid) {
@@ -46,7 +47,8 @@
         fromBlock:maxBlockNumber+1
     }, function (_error, data) { 
         if(!data || !data.returnValues) {
-            _this.p("osCreateEvent error");
+            daolog.log("osCreateEvent error");
+            if(this.para) this.para.isError=true;
             return;
         }
         callbackFun.call(null,{                  
@@ -64,11 +66,7 @@
     })
     }
 
-    p(k)
-    {
-        var myDate = new Date();
-        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-    }
+   
 
     daoCreateEvent(maxBlockNumber,callbackFun) {
         const _this = this;
@@ -78,9 +76,9 @@
             filter: {}, 
             fromBlock:maxBlockNumber+1
         }, function (_error, data) { 
-            console.log(data);
             if(!data || !data.returnValues) {
-                _this.p("daoCreateEvent error");
+                daolog.log("daoCreateEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }
             _this.getOrgId.getOrgId(data.returnValues.id).then(e=>{           
@@ -116,16 +114,18 @@
         this.abi=_abi;
     }
 
-constructor(_web3,_selectAccount,_getOrgId) {
+constructor(_web3,_selectAccount,_address,_getOrgId,_para) {
     this.getOrgId=_getOrgId;
     this.web3=_web3;
     this.oseventobj=undefined;
     this.daoeventobj=undefined;
+    this.para=_para;
  
     this.selectedAccount=_selectAccount;
     this.contract=undefined;    
   
-    this.address='0x472801c8A7B3ab18122d428f5a2CDf303d5A4C26';
+    this.address=_address;
+   // console.log("-----Os------->"+this.address);
     this.abi=[
         {
             "inputs": [

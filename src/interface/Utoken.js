@@ -1,30 +1,44 @@
 'use strict';
+const daolog = require("../utils");
  class Utoken
 {
     async getEthToNDAOInputPrice(_value) {
-        let _eth=this.web3.utils.toWei(_value.toString(),'ether');
+        let _eth=this.web3.utils.toWei(_value+'','ether');
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.addethToNDAOInputPrice(_eth).call({from: this.selectedAccount});
-        return {inAmount:parseFloat(_value.toString()),outAmount: parseFloat(this.web3.utils.fromWei(result,'ether')),inAmountWei:_eth,outAmountWei:result};
+        return {inAmount:parseFloat(_value+''),outAmount: this.web3.utils.fromWei(result,'ether'),inAmountWei:_eth,outAmountWei:result};
     }
 
     async getPrice() {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.getPrice().call({from: this.selectedAccount});
-        const r1 = parseFloat(result) /  Math.pow(10,8); //(100000000);
-        return {priceWei:this.web3.utils.toWei(r1.toString(),'ether'),price:r1};
+        let _a = result.split('').reverse();
+        let _b = _a.length
+        if (_a.length < 8) {
+            for (let i = 0; i < 8 - _b; i++) {
+                _a.push('0');
+            }
+        }
+        _a.splice(8, 0, ".")
+        if (_a[_a.length - 1] == '.') {
+            _a.push('0')
+        }
+        let _c = _a.reverse().join('');
+
+        
+        return {priceWei:this.web3.utils.toWei(_c,'ether'),price:_c};
     }
 
     async balanceOf(_address) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.balanceOf(_address).call({from: this.selectedAccount});
-        return {utoken: parseFloat(this.web3.utils.fromWei(result,'ether')),utokenWei:result};
+        return {utoken: this.web3.utils.fromWei(result,'ether'),utokenWei:result};
     }
 
     async allowance(_owneraddress,_speneraddress) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.allowance(_owneraddress,_speneraddress).call({from: this.selectedAccount});
-        return {approveSumWei: result,approveSum:parseFloat(this.web3.utils.fromWei(result,'ether'))};
+        return {approveSumWei: result,approveSum:this.web3.utils.fromWei(result,'ether')};
     }
 
 
@@ -37,12 +51,15 @@
 
     async swap(v) {
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
-        const etherValue = this.web3.utils.toWei(v.toString(), 'ether');
+        const etherValue = this.web3.utils.toWei(v+'', 'ether');
         let re = await this.contract.methods.swap().send({from: this.selectedAccount, value: this.web3.utils.toHex(etherValue)});
         return re;
     }
       
-    async swapDETHTo(_address,_amount) {
+    async swapDETHTo(_address,_shu) {
+        console.log(_shu);
+        let _amount=this.web3.utils.toWei(_shu+'', 'ether');
+        console.log(_amount);
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let re=  await  this.contract.methods.swapDETHTo(_address,_amount).send({from: this.selectedAccount});
         return re;
@@ -58,12 +75,17 @@
             {
                 this.swapObj.unsubscribe();
             }
-            if(this.swapObj && this.swapObj.unsubscribe)
+            if(this.dethswapObj && this.dethswapObj.unsubscribe)
             {
-                this.swapObj.unsubscribe();
+                this.dethswapObj.unsubscribe();
+            }
+            if(this.swapobjTo && this.swapobjTo.unsubscribe)
+            {
+                this.swapobjTo.unsubscribe();
             }
             this.swapObj=null;
             this.dethswapObj=null;
+            this.swapobjTo=null;
         }
         catch(e){
             console.log(e);
@@ -81,7 +103,8 @@
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
             if(!data || !data.returnValues) {
-                _this.p("swapEvent error");
+                daolog.log("swapEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }
           
@@ -106,13 +129,14 @@
         const _this = this;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
         
-        this.swapObj=this.contract.events.SwapTo({
+        this.swapobjTo=this.contract.events.SwapTo({
             filter: {}, 
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
            
             if(!data || !data.returnValues) {
-                _this.p("swapEvent error");
+                daolog.log("swapEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }
             _this.web3.eth.getTransactionReceipt(data.transactionHash).then(eobj=>{
@@ -134,13 +158,6 @@
         })
     }
 
-
-
-    p(k)
-    {
-        var myDate = new Date();
-        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-    }
     swapDethEvent(maxBlockNumber,callbackFun) {
         const _this = this;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
@@ -154,7 +171,8 @@
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
             if(!data || !data.returnValues) {
-                _this.p("swapDethEvent error");
+                daolog.log("swapDethEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }
             callbackFun.call(null,{                  
@@ -182,13 +200,17 @@
     {
         this.abi=_abi;
     }
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address,_para) {
+        daolog.log("utoken start....");
         this.web3=_web3;
+        this.para=_para;
         this.contract=undefined;
         this.swapObj=undefined;
+        this.swapobjTo=undefined;
         this.dethswapObj=undefined;
         this.selectedAccount=_selectAccount;
-        this.address='0xaeb0A4542Dc934D6A450a7c133e981188cBC7A68';
+        this.address=_address;
+       // console.log("----Utoken-------->"+this.address);
         this.abi=[
             {
                 "inputs": [],

@@ -2,7 +2,6 @@
 class EthToToken
 {
     async ETHToExactToken(_ethmin,_utokenmin,_id,_eth) {
-
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.ETHToExactToken(_ethmin,_utokenmin,_id).send({from: this.selectedAccount, value: this.web3.utils.toHex(_eth)});
         return result;
@@ -17,13 +16,11 @@ class EthToToken
         let _this=this;
         let p = new Promise(function (resolve, reject) {
        _this.utoken.getEthToNDAOInputPrice(_eth).then(e=>{
-             _this.commulate.utokenToToken(e.outAmount,_id).then(e1=>{
-               _this.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,_this.web3.utils.toWei(_eth.toString())).then(e2=>{
+             _this.commulate.wutokenToToken(e.outAmountWei,_id).then(e1=>{
+               _this.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,_this.web3.utils.toWei(_eth+'','ether')).then(e2=>{
                 resolve(e2)
                })
-       
              })
-       
            })
         });
         return p;
@@ -37,13 +34,14 @@ class EthToToken
     {
         this.abi=_abi;
     }
-    constructor(_web3,_selectAccount,_utoekn,_commulate) {
+    constructor(_web3,_selectAccount,_address,_utoekn,_commulate) {
         this.web3=_web3;
         this.utoken=_utoekn;
         this.commulate=_commulate;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address='0x5a5D209B4a86Dc3dCc5c71fE8b4D19dCC3c8D891';      
+        this.address=_address;
+     //   console.log("----EthToToken-------->"+this.address);
       this.abi=[
         {
             "inputs": [

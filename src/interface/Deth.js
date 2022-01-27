@@ -36,22 +36,21 @@ async  takeRecord() {
 async  dEth(_address) {    
     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
     let result = await this.contract.methods.dEth(_address).call({from: this.selectedAccount});
-    return result;
+    return {address:_address,outAmountWei: result,outAmount:this.web3.utils.fromWei(result,'ether')};
 }
 
 async  balanceOf(_address) {    
     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
     let result = await this.contract.methods.balanceOf(_address).call({from: this.selectedAccount});
+    return {address:_address,outAmountWei: result,outAmount:this.web3.utils.fromWei(result,'ether')};
+ 
+}
+async  approve(_address,_amount) {    
+    if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+    let result = await this.contract.methods.approve(_address,_amount).send({from: this.selectedAccount});
     return result;
-}
-
-
-
-p(k)
-{
-    var myDate = new Date();
-    console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-}
+    }
+   
 
 setAddress(_address)
 {
@@ -62,12 +61,13 @@ setAbi(_abi)
     this.abi=_abi;
 }
 
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address) {
         this.web3=_web3;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;    
 
-        this.address='0x81Db85462016eC61ADB1E87B8e267586b792318e';
+        this.address=_address;
+      //  console.log("----Deth-------->"+this.address);
         this.abi=[
             {
                 "inputs": [

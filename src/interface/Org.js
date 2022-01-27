@@ -1,4 +1,4 @@
-
+const daolog = require("../utils");
 class Org
 {
    
@@ -23,11 +23,6 @@ async  getInitData(org_id) {
 }
 
 
-   p(k)
-   {
-       var myDate = new Date();
-       console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-   }
    orgCreateEvent(maxBlockNumber,callbackFun) {
     const _this = this;
     if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
@@ -37,7 +32,8 @@ async  getInitData(org_id) {
         fromBlock: maxBlockNumber+1,
     }, function (_error, data) {
         if(!data || !data.returnValues) {
-            _this.p("orgCreateEvent error");
+            daolog.log("orgCreateEvent error");
+            if(this.para) this.para.isError=true;
             return;
         }
         _this.web3.eth.getTransactionReceipt(data.transactionHash).then(eobj=>{
@@ -83,13 +79,15 @@ setAbi(_abi)
 }
 
 
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address,_para) {
         this.web3=_web3;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;    
         this.maxOrg=0;
+        this.para=_para;
         this.eventObj=undefined;
-        this.address='0x9fEAd022e1baE1466809075D71cAd21a4B83ee8d';
+        this.address=_address;
+      //  console.log("----Org-------->"+this.address);
         this.abi=[
             {
                 "inputs": [

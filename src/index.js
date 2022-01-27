@@ -3,94 +3,105 @@ const Commulate = require("./interface/Commulate");
 const EthToToken = require("./interface/EthToToken");
 const IADD = require("./interface/IADD");
 const Logos = require("./interface/Logo");
-const Register = require("./interface/Register");
+//const Register = require("./interface/Register");
 const Tokens = require("./interface/Tokens");
 const Utoken = require("./interface/Utoken");
 const LogoNodejs = require("./interface/Logo_nodejs");
-const Org=require("./interface/Org");
-const GetOrgId=require("./interface/GetOrgId");
-const Os=require("./interface/Os");
-const Deth=require("./interface/Deth");
-const Vote=require("./interface/Vote");
+const Org = require("./interface/Org");
+const GetOrgId = require("./interface/GetOrgId");
+const Os = require("./interface/Os");
+const Deth = require("./interface/Deth");
+const Vote = require("./interface/Vote");
 
- class DaoApi {
+const CheckVote = require("./interface/CheckVote");
+const Application = require('./interface/Application');
+const Daoinfo = require("./interface/Daoinfo");
+const Version = require("./interface/Version");
+const EventSum = require("./interface/EventSum");
+const Getinfo = require("./interface/Getinfo");
+const ChangeSVG= require("./interface/ChangeSVG");
+const DaoAddress=require('./data/address');
 
-    unsub()
-    {
-        this.os.unsub();
-        this.logo.unsub();
-        this.org.unsub();
-        this.tokens.unsub();
-        this.iadd.unsub();
-        this.utoken.unsub();
+class DaoApi {
+    unsub() {
+        this.os.unsub(); this.logo.unsub(); this.org.unsub(); this.tokens.unsub(); this.iadd.unsub(); this.utoken.unsub();this.eventSum.unsub();
     }
 
-    toWei(v) {
-        let a = v.toString();
-        let _a = a.split('.');
-        if (_a.length == 1) {
-            for (let i = 0; i < 18; i++) {
-                a += '0';
-            }
-
-        }
-        else {
-
-            a = _a[0].toString() + '' + _a[1].toString();
-
-            let _b = _a[1].length;
-            for (let i = 0; i < 18 - _b; i++) {
-                a += '0'
-            }
-
-        }
-        return a;
+    get commulate() { if (!this.commulateobj) this.commulateobj = new Commulate(this.web3, this.selectedAccount,DaoAddress[this.net]['commulate']); return this.commulateobj; }
+    get iadd() { if (!this.iaddobj) this.iaddobj = new IADD(this.web3, this.selectedAccount,DaoAddress[this.net]['iadd'], this.commulate,this.para); return this.iaddobj; }
+    get logo() {
+        if (typeof window === 'object') { if (!this.logoobj) this.logoobj = new Logos(this.web3, this.selectedAccount,DaoAddress[this.net]['logo'],this.para); }
+        else { if (!this.logoobj) this.logoobj = new LogoNodejs(this.web3, this.selectedAccount,DaoAddress[this.net]['logo'],this.para); }
+        return this.logoobj;ChangeSVG
     }
-    
-    fromWei(v) {
-        if (typeof v == 'string') {
-            let _a = v.split('').reverse();
-            let _b = _a.length
-            if (_a.length < 18) {
-                for (let i = 0; i < 18 - _b; i++) {
-                    _a.push('0');
-                }
-            }
-            _a.splice(18, 0, ".")
-            if (_a[_a.length - 1] == '.') {
-                _a.push('0')
-            }
-            let _c = _a.reverse().join('');
-            return _c;
-        }
-        else console.error(v + " not string !")
-    }
+    get tokens() { if (!this.tokensobj) this.tokensobj = new Tokens(this.web3, this.selectedAccount,DaoAddress[this.net]['token'],this.para); return this.tokensobj; }
+    get utoken() { if (!this.utokenobj) this.utokenobj = new Utoken(this.web3, this.selectedAccount,DaoAddress[this.net]['utoken'],this.para); return this.utokenobj; }
+    get ethToToken() { if (!this.ethToTokenobj) this.ethToTokenobj = new EthToToken(this.web3, this.selectedAccount,DaoAddress[this.net]['ethTotoken'], this.utoken, this.commulate); return this.ethToTokenobj; }
+    get org() { if (!this.orgobj) this.orgobj = new Org(this.web3, this.selectedAccount,DaoAddress[this.net]['org'],this.para); return this.orgobj; }
+    get getOrgId() { if (!this.getOrgIdobj) this.getOrgIdobj = new GetOrgId(this.web3, this.selectedAccount,DaoAddress[this.net]['getOrgId']); return this.getOrgIdobj; }
+    get os() { if (!this.osobj) this.osobj = new Os(this.web3, this.selectedAccount,DaoAddress[this.net]['os'], this.getOrgId,this.para); return this.osobj; }
+    get deth() { if (!this.dethobj) this.dethobj = new Deth(this.web3, this.selectedAccount,DaoAddress[this.net]['deth']); return this.dethobj; }
+    get vote() { if (!this.voteobj) this.voteobj = new Vote(this.web3, this.selectedAccount,DaoAddress[this.net]['vote']); return this.voteobj; }
+    get checkVote() { if (!this.checkVoteobj) this.checkVoteobj = new CheckVote(this.web3, this.selectedAccount,DaoAddress[this.net]['checkVote']); return this.checkVoteobj; }
+    get application() { if (!this.applicationobj) this.applicationobj = new Application(this.web3, this.selectedAccount,DaoAddress[this.net]['application']); return this.applicationobj; }
+    get daoinfo() { if (!this.daoinfoobj) this.daoinfoobj = new Daoinfo(this.web3, this.selectedAccount,DaoAddress[this.net]['daoInfo'],DaoAddress[this.net]['viewCall']); return this.daoinfoobj; }
+    get appVersion() { if (!this.versionobj) this.versionobj = new Version(this.web3, this.selectedAccount,DaoAddress[this.net]['version']); return this.versionobj; }
+    get eventSum() { if (!this.eventsumobj) this.eventsumobj = new EventSum(this.web3, this.selectedAccount,DaoAddress[this.net]['eventSum'],this.para); return this.eventsumobj; }
+    get getInfo() { if (!this.getinfoobj) this.getinfoobj = new Getinfo(this.web3, this.selectedAccount,DaoAddress[this.net]['getInfo']); return this.getinfoobj; }
+    get changesvg() { if (!this.changesvgobj) this.changesvgobj = new ChangeSVG(this.web3, this.selectedAccount,DaoAddress[this.net]['changeSVG']); return this.changesvgobj; }
 
-    constructor(_web3, _selectAccount) {
-        this.version='1.0.11';
+    get version(){return '1.0.12';}
+
+
+  
+
+    constructor(_web3, _selectAccount,_net,_para) {
         this.web3 = _web3;
         this.selectedAccount = _selectAccount;
-        this.commulate = new Commulate(this.web3, this.selectedAccount);
-        this.iadd = new IADD(this.web3, this.selectedAccount,this.commulate);
-        this.register = new Register(this.web3, this.selectedAccount);
+        this.net=_net;
+        this.para=_para;
 
-        if(typeof window==='object') {
-            this.logo = new Logos(this.web3, this.selectedAccount); 
-        }
-        else 
-        {
-            this.logo = new LogoNodejs(this.web3, this.selectedAccount);
-        }
-        
-        this.tokens = new Tokens(this.web3, this.selectedAccount);
-        this.utoken = new Utoken(this.web3, this.selectedAccount);
-        this.ethToToken = new EthToToken(this.web3, this.selectedAccount, this.utoken, this.commulate);
-        this.getOrgId = new GetOrgId(this.web3, this.selectedAccount);
+        this.commulateobj = null;
+        this.iaddobj = null;
+        this.logoobj = null;
+        this.tokensobj = null;
+        this.utokenobj = null;
+        this.ethToTokenobj = null;
+        this.getOrgIdobj = null;
+        this.orgobj = null;
+        this.osobj = null;
+        this.dethobj = null;
+        this.voteobj = null;
+        this.checkVoteobj = null;
+        this.applicationobj = null;
+        this.daoinfoobj = null;
+        this.versionobj = null;
+        this.eventsumobj=null;
+        this.getinfoobj=null;
+        this.changesvgobj=null;
 
-        this.org = new Org(this.web3, this.selectedAccount);
-        this.os = new Os(this.web3, this.selectedAccount,this.getOrgId);
-        this.deth = new Deth(this.web3, this.selectedAccount);
-        this.vote = new Vote(this.web3, this.selectedAccount);
+
+        // this.commulate = new Commulate(this.web3, this.selectedAccount);
+        // this.iadd = new IADD(this.web3, this.selectedAccount,this.commulate);
+        // this.register = new Register(this.web3, this.selectedAccount);
+
+        // if(typeof window==='object') {
+        //     this.logo = new Logos(this.web3, this.selectedAccount); 
+        // }
+        // else 
+        // {
+        //     this.logo = new LogoNodejs(this.web3, this.selectedAccount);
+        // }
+
+        // this.tokens = new Tokens(this.web3, this.selectedAccount);
+        // this.utoken = new Utoken(this.web3, this.selectedAccount);
+        // this.ethToToken = new EthToToken(this.web3, this.selectedAccount, this.utoken, this.commulate);
+        // this.getOrgId = new GetOrgId(this.web3, this.selectedAccount);
+
+        // this.org = new Org(this.web3, this.selectedAccount);
+        // this.os = new Os(this.web3, this.selectedAccount,this.getOrgId);
+        // this.deth = new Deth(this.web3, this.selectedAccount);
+        // this.vote = new Vote(this.web3, this.selectedAccount);
 
 
 
@@ -100,12 +111,12 @@ const Vote=require("./interface/Vote");
 }
 
 
-if(typeof window==='object') {
-    window.Daoapi=function(_web3, _selectAccount){
-        return new DaoApi(_web3, _selectAccount)
+if (typeof window === 'object') {
+    window.Daoapi = function (_web3, _selectAccount,_net,_para) {
+        return new DaoApi(_web3, _selectAccount,_net,_para)
     }
-  
-    window.Daoapi.default= window.Daoapi;
+
+    window.Daoapi.default = window.Daoapi;
 }
 
-module.exports=DaoApi
+module.exports = DaoApi

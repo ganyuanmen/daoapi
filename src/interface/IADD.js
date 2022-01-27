@@ -1,4 +1,6 @@
 'use strict';
+
+const daolog = require("../utils");
 class IADD
 {
   
@@ -19,7 +21,7 @@ class IADD
         let _this=this;
         let p = new Promise(function (resolve, reject) {
        _this.commulate.utokenToToken(_amount,_id).then(e=>{      
-               _this.NDAOToToken(e.outAmountWei,_this.web3.utils.toWei(_amount.toString(),'ether'),_id).then(e2=>{
+               _this.NDAOToToken(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
                 resolve(e2)
                })
            })
@@ -44,7 +46,7 @@ class IADD
         let _this=this;
         let p = new Promise(function (resolve, reject) {
        _this.commulate.tokenToUtoken(_amount,_id).then(e=>{      
-               _this.TokenToNDAO(e.outAmountWei,_this.web3.utils.toWei(_amount.toString(),'ether'),_id).then(e2=>{
+               _this.TokenToNDAO(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
                 resolve(e2)
                })
            })
@@ -60,7 +62,7 @@ class IADD
     }
 
     async tokenToToken(_amount,_id1,_id2) {
-        let result = await this._tokenToUtoken(_amount,_id1,_id2);
+        let result = await this._tokenToToken(_amount,_id1,_id2);
         return result;
     }
     
@@ -68,8 +70,8 @@ class IADD
     {
         let _this=this;
         let p = new Promise(function (resolve, reject) {
-       _this.commulate._tokenToToken(_amount,_id1,_id2).then(e=>{      
-               _this.TokenToToken1(e[0], e[1], _this.web3.utils.toWei(_amount.toString(),'ether'),_id1,_id2).then(e2=>{
+       _this.commulate._tokenToToken(_amount,_id1,_id2).then(e=>{   
+               _this.TokenToToken1(e[0], e[1], _this.web3.utils.toWei(_amount+'','ether'),_id1,_id2).then(e2=>{
                 resolve(e2)
                })
            })
@@ -92,7 +94,7 @@ class IADD
     async getPool(_id) {
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let result= await this.contract.methods.getPool(_id).call({from: this.selectedAccount});
-        return {utoken: parseFloat(this.web3.utils.fromWei(this.getReal(result.uToken),'ether')),utokenWei:this.getReal(result.uToken)};
+        return {utoken: this.web3.utils.fromWei(this.getReal(result.uToken),'ether'),utokenWei:this.getReal(result.uToken)};
     
     }
     unsub()
@@ -121,11 +123,11 @@ class IADD
         }
     }
 
-    p(k)
-    {
-        var myDate = new Date();
-        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-    }
+    // p(k)
+    // {
+    //     var myDate = new Date();
+    //     console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
+    // }
     utokenTotokenEvent(maxBlockNumber,callbackFun) {
         const _this = this;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
@@ -136,7 +138,8 @@ class IADD
         }, function (_error, data) {
            
             if(!data || !data.returnValues) {
-                _this.p("utokenTotokenEvent error");
+                daolog.log("utokenTotokenEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }
             _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
@@ -173,7 +176,8 @@ class IADD
         }, function (_error, data) {  
           
             if(!data || !data.returnValues) {
-                _this.p("tokenToUtokenEvent error");
+                daolog.log("tokenToUtokenEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }   
             _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
@@ -208,7 +212,8 @@ class IADD
         }, function (_error, data) {  
             
             if(!data || !data.returnValues) {
-                _this.p("tokenTotokenEvent error");
+                daolog.log("tokenTotokenEvent error");
+                if(this.para) this.para.isError=true;
                 return;
             }   
             _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
@@ -243,16 +248,18 @@ class IADD
     {
         this.abi=_abi;
     }
-    constructor(_web3,_selectAccount,_commulate) {
+    constructor(_web3,_selectAccount,_address,_commulate,_para) {
       
         this.commulate=_commulate;
         this.web3=_web3;
         this.u2tObj=undefined;
         this.t2uObj=undefined;
+        this.para=_para;
         this.t2tObj=undefined;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address='0xc07EA5a5Ffa66585862fE1b96e1Fa81E7aD8D1a5';
+        this.address=_address;
+      //  console.log("-----IADD------->"+this.address);
         this.abi=[
             {
                 "inputs": [

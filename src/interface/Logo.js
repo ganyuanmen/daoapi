@@ -1,4 +1,5 @@
 'use strict';
+const daolog = require("../utils");
 const JSZip= require('jszip')
 
  class Logos {
@@ -116,7 +117,8 @@ const JSZip= require('jszip')
         fromBlock: maxBlockNumber+1
     }, function (_error, data) {  
         if(!data || !data.returnValues) {
-            _this.p("setLogoEvent error");
+            daolog.log("setLogoEvent error");
+            if(this.para) this.para.isError=true;
             return;
         }
         _this.getLogo(data.returnValues.id).then(e=>{
@@ -136,11 +138,11 @@ const JSZip= require('jszip')
     })
    
    }
-   p(k)
-   {
-       var myDate = new Date();
-       console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-   }
+//    p(k)
+//    {
+//        var myDate = new Date();
+//        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
+//    }
 
    changeLogoEvent(maxBlockNumber,callbackFun) {
     const _this = this;
@@ -152,7 +154,8 @@ const JSZip= require('jszip')
         fromBlock: maxBlockNumber+1
     }, function (_error, data) { 
         if(!data || !data.returnValues) {
-            _this.p("changeLogoEvent error");
+            daolog.log("changeLogoEvent error");
+            if(this.para) this.para.isError=true;
             return;
         }
         _this.getLogo(data.returnValues.id).then(e=>{
@@ -200,14 +203,16 @@ const JSZip= require('jszip')
     {
         this.abi=_abi;
     }
-    constructor(_web3,_selectAccount) {
+    constructor(_web3,_selectAccount,_address,_para) {
         this.web3=_web3;
         this.contract=undefined;
         this.eventObj1=undefined;
+        this.para=_para;
         this.eventObj2=undefined
 
         this.selectedAccount=_selectAccount;
-        this.address = '0x53C851381D30631C106969D0a02a1fADC7A71295';
+        this.address = _address;
+       // console.log("----logo-------->"+this.address);
         this.abi=[
             {
                 "inputs": [
