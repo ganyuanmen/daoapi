@@ -1,5 +1,5 @@
 
-#  道易程前端api（daoapi@1.0.11）
+#  道易程前端api（daoapi@1.0.13）
 daoapi 是一个专门用于操作 dao 合约的api， 封装了与智能合约交互的操作过程。让用户以函数的方式直接调用以太坊的智能合约。
 共有7个类
 - dao 管理类 (对象实例：register)
@@ -41,16 +41,10 @@ npm install jszip 或 yarn add jszip
 
 使用web3 连接到以太坊服务器后， 执行：
 ```js
- let daoapi=new Daoapi(web3,selectedAccount) //selectedAccount 用户钱包地址
+ let daoapi=new Daoapi(web3,selectedAccount,'Ropsten') //selectedAccount 用户钱包地址 Ropsten:连接Ropsten网络
 
 ```
 
-daoapi 默认的地址， 是Ropsten 的测试网络地址, 根据合约部署的环境， 可以更改合约地址，按类的对象实例更改：
-```js
-daoapi.iadd.setAddress('0x......');
-daoapi.tokens.setAddress('0x......');
-daoapi.utoken.setAddress('0x......');
-......
 
 ```
 ## webpack 项目使用示例
@@ -58,19 +52,18 @@ daoapi.utoken.setAddress('0x......');
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import Daoapi from "daoapi"
-import WalletConnectProvider from "@walletconnect/web3-provider";
 
 var web3,selectAcouunt;
 
 //连接钱包
 async function connect() {
   const providerOptions = {
-      walletconnect: {
-          package: WalletConnectProvider,
-          options: {
-              infuraId: "9676a35d629d488fb90d7eac1348c838"
-          }
-      }
+     // walletconnect: {
+      //    package: WalletConnectProvider,
+       //   options: {
+        //      infuraId: "9676a35d629d488fb90d7eac1348c838"
+       //   }
+    //  }
   };
 
   const web3Modal = new Web3Modal({
@@ -83,9 +76,10 @@ async function connect() {
   return provider;
 }
 
+//连接后处理
 function onConnect() {
 
-  const daoapi = new Daoapi(web3, selectAcouunt);
+  const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
   console.log(daoapi.version)
 
   //默认合约地址是ropsten测试网络地址，
@@ -153,7 +147,7 @@ window.addEventListener('load', async () => {
 
 function onConnect() {
 
-    const daoapi = new Daoapi(web3, selectAcouunt);
+    const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
     console.log(daoapi.version)
     daoapi.register.getDaos(selectAcouunt).then(e => {
         console.log("----------getDaos---------------------")
@@ -198,7 +192,7 @@ const Daoapi=require("daoapi")
 var web3 = new Web3('wss://ropsten.infura.io/ws/v3/63aa34e959614d01a9a65d3f93b70e66')
 var selectAcouunt='0x75EFcbeC4961D6FD3B77F271ce9e5cb7458cb69E'
 
-const daoapi = new Daoapi(web3, selectAcouunt);
+const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
 console.log("daoapi version:"+daoapi.version)
 
 daoapi.register.getDaos(selectAcouunt).then(e => {
