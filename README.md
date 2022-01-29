@@ -14,8 +14,6 @@ daoapi 是一个专门用于操作 dao 合约的api， 封装了与智能合约�
 - Deth 回收utoken (对象实例：deth)
 - Vote 提案管理类 (对象实例：vote)
 
-> 具体的使用方法参见左边菜单信息
-
 
 ## 安装 daoapi
 ```js
