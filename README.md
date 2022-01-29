@@ -1,17 +1,25 @@
 
 #  道易程前端api（daoapi@1.0.13）
+
 daoapi 是一个专门用于操作 dao 合约的api， 封装了与智能合约交互的操作过程。让用户以函数的方式直接调用以太坊的智能合约。
-共有7个类
-- dao 管理类 (对象实例：register)
+实体类 :
+- Org 管理类 (对象实例：org)
+- Os 管理类 (对象实例：os)
 - IADD 币值兑换 (对象实例：iadd)
-- tokens 处理 (对象实例：tokens)
-- utoken 处理 (对象实例：utokenr)
-- eth 兑换token (对象实例：ethToToken)
-- commulate 兑换值查询 (对象实例：commulate)
-- logo 图片处理 (对象实例：logo)
+- Tokens 处理 (对象实例：tokens)
+- Utoken 处理 (对象实例：utokenr)
+- Eth 兑换token (对象实例：ethToToken)
+- Commulate 兑换值查询 (对象实例：commulate)
+- Logo 图片处理 (对象实例：logo)
+- Deth 回收utoken (对象实例：deth)
+- Vote 提案管理类 (对象实例：vote)
 
 > 具体的使用方法参见左边菜单信息
 
+::: tip 版本更新提示
+请实时关注我们的GitHup,我们把版本更新及bug 更正都发布在GitHup上。
+[道易程GitHup](https://github.com/ganyuanmen/daoapi).
+:::
 
 ## 安装 daoapi
 ```js
@@ -45,8 +53,6 @@ npm install jszip 或 yarn add jszip
 
 ```
 
-
-```
 ## webpack 项目使用示例
 ```js
 import Web3 from "web3";
@@ -57,13 +63,13 @@ var web3,selectAcouunt;
 
 //连接钱包
 async function connect() {
-  const providerOptions = {
+  const providerOptions = {  // 空对象，默认使用metamask 
      // walletconnect: {
-      //    package: WalletConnectProvider,
+       //   package: WalletConnectProvider,
        //   options: {
         //      infuraId: "9676a35d629d488fb90d7eac1348c838"
-       //   }
-    //  }
+        //  }
+   //   }
   };
 
   const web3Modal = new Web3Modal({
@@ -76,7 +82,6 @@ async function connect() {
   return provider;
 }
 
-//连接后处理
 function onConnect() {
 
   const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
@@ -86,13 +91,13 @@ function onConnect() {
   //修改地址：
   //daoapi.commulate.setAddress("0x.....")
   //daoapi.utoken.setAddress("0x.....")
-  daoapi.register.getDaos(selectAcouunt).then(e => {
-      console.log("----------getDaos---------------------")
+  daoapi.org.getOrg(org_id).then(e => {
+      console.log("----------getOrg---------------------")
       console.log(e);
 
   })
 
-  daoapi.logo.setLogoEvent(11422899,data=>{
+  daoapi.logo.setLogoEvent(11422899,data=>{ //从11422899 块号开始监听
 
       console.log(data);
       // do something 
@@ -121,7 +126,6 @@ connect().then(provider => {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>daoapi demo</title>
         <script src='web3.min.js'></script>
-        <script src='wallectconnect.min.js'></script>
         <script src='web3model.js'></script>
         <script src='daoApi.js'></script>     
     </head>
@@ -147,14 +151,14 @@ window.addEventListener('load', async () => {
 
 function onConnect() {
 
-    const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
+    const daoapi = new Daoapi(web3, selectAcouunt,,'Ropsten');
     console.log(daoapi.version)
-    daoapi.register.getDaos(selectAcouunt).then(e => {
+    daoapi.org.getOrg(org_id).then(e => {
         console.log("----------getDaos---------------------")
         console.log(e);
 
     })
-    daoapi.logo.setLogoEvent(11422899, data => {
+    daoapi.logo.setLogoEvent(11422899, data => { //从11422899 块号开始监听
 
         console.log(data);
         // do something 
@@ -163,13 +167,13 @@ function onConnect() {
 }
 
 async function connect() {
-    const providerOptions = {
-        walletconnect: {
-            package: WalletConnectProvider,
-            options: {
-                infuraId: "9676a35d629d488fb90d7eac1348c838"
-            }
-        }
+    const providerOptions = {  // 空对象，默认使用metamask 
+       // walletconnect: {
+        //    package: WalletConnectProvider,
+       //     options: {
+        //        infuraId: "9676a35d629d488fb90d7eac1348c838"
+        //    }
+     //   }
     };
 
     const web3Modal = new Web3Modal({
@@ -192,16 +196,16 @@ const Daoapi=require("daoapi")
 var web3 = new Web3('wss://ropsten.infura.io/ws/v3/63aa34e959614d01a9a65d3f93b70e66')
 var selectAcouunt='0x75EFcbeC4961D6FD3B77F271ce9e5cb7458cb69E'
 
-const daoapi = new Daoapi(web3, selectAcouunt,'Ropsten');
+const daoapi = new Daoapi(web3, selectAcouunt);
 console.log("daoapi version:"+daoapi.version)
 
-daoapi.register.getDaos(selectAcouunt).then(e => {
+daoapi.org..getOrg(org_id).then(e => {
   console.log("----------getDaos---------------------")
   console.log(e);
 
 })
 
-daoapi.logo.setLogoEvent(11422899,data=>{
+daoapi.logo.setLogoEvent(11422899,data=>{ //从11422899 块号开始监听
   console.log(data);
   // do something 
 
