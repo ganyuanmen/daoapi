@@ -20,11 +20,12 @@ const Version = require("./interface/Version");
 const EventSum = require("./interface/EventSum");
 const Getinfo = require("./interface/Getinfo");
 const ChangeSVG= require("./interface/ChangeSVG");
+const Allapp= require("./interface/Allapp");
 const DaoAddress=require('./data/address');
 
 class DaoApi {
     unsub() {
-        this.os.unsub(); this.logo.unsub(); this.org.unsub(); this.tokens.unsub(); this.iadd.unsub(); this.utoken.unsub();this.eventSum.unsub();
+        this.os.unsub(); this.logo.unsub(); this.org.unsub(); this.tokens.unsub(); this.iadd.unsub(); this.utoken.unsub();this.eventSum.unsub();this.allapp.unsub();
     }
 
     get commulate() { if (!this.commulateobj) this.commulateobj = new Commulate(this.web3, this.selectedAccount,DaoAddress[this.net]['commulate']); return this.commulateobj; }
@@ -49,8 +50,9 @@ class DaoApi {
     get eventSum() { if (!this.eventsumobj) this.eventsumobj = new EventSum(this.web3, this.selectedAccount,DaoAddress[this.net]['eventSum'],this.para); return this.eventsumobj; }
     get getInfo() { if (!this.getinfoobj) this.getinfoobj = new Getinfo(this.web3, this.selectedAccount,DaoAddress[this.net]['getInfo']); return this.getinfoobj; }
     get changesvg() { if (!this.changesvgobj) this.changesvgobj = new ChangeSVG(this.web3, this.selectedAccount,DaoAddress[this.net]['changeSVG']); return this.changesvgobj; }
+    get allapp() { if (!this.allappobj) this.allappobj = new Allapp(this.web3, this.selectedAccount,DaoAddress[this.net]['allapp']); return this.allappobj; }
 
-    get version(){return '1.0.12';}
+    get version(){return '1.0.14';}
 
 
   
@@ -79,6 +81,7 @@ class DaoApi {
         this.eventsumobj=null;
         this.getinfoobj=null;
         this.changesvgobj=null;
+        this.allappobj=null;
 
 
         // this.commulate = new Commulate(this.web3, this.selectedAccount);
