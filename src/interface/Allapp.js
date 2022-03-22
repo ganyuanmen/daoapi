@@ -37,7 +37,7 @@ addAppEvent(maxBlockNumber,callbackFun) {
         filter: {}, 
         fromBlock: maxBlockNumber+1,
     }, function (_error, data) {
-       // console.log(data);
+        console.log(data);
         if(!data || !data.returnValues) {
             daolog.log("addAppEvent error");
             if(this.para) this.para.isError=true;
@@ -80,8 +80,8 @@ addVersionEvent(maxBlockNumber,callbackFun) {
             if(this.para) this.para.isError=true;
             return;
         }
-             _this.web3.eth.getTransactionReceipt(data.transactionHash).then(eobj=>{
-               _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
+         //    _this.web3.eth.getTransactionReceipt(data.transactionHash).then(eobj=>{
+           //    _this.web3.eth.getBlock(data.blockNumber).then(ee=>{
             callbackFun.call(null,{                  
                 "address": data.address,
                 "blockHash": data.blockHash,
@@ -91,13 +91,13 @@ addVersionEvent(maxBlockNumber,callbackFun) {
                 "data": {
                     "appNum": data.returnValues.appNum,
                     "rec": data.returnValues.rec,
-                    "version":data.returnValues.version,
-                    "address":eobj.from,
-                    "time":ee.timestamp
+                    "version":data.returnValues.version
+                   // "address":eobj.from,
+                   // "time":ee.timestamp
                 },
                 "event": "addVersionEvent"})       
-    })
-})
+  //  })
+//})
 })
    
 }
