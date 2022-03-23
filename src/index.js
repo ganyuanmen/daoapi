@@ -12,7 +12,7 @@ const GetOrgId = require("./interface/GetOrgId");
 const Os = require("./interface/Os");
 const Deth = require("./interface/Deth");
 const Vote = require("./interface/Vote");
-
+const AppStore = require("./interface/AppStore");
 const CheckVote = require("./interface/CheckVote");
 const Application = require('./interface/Application');
 const Daoinfo = require("./interface/Daoinfo");
@@ -33,11 +33,11 @@ class DaoApi {
     get logo() {
         if (typeof window === 'object') { if (!this.logoobj) this.logoobj = new Logos(this.web3, this.selectedAccount,DaoAddress[this.net]['logo'],this.para); }
         else { if (!this.logoobj) this.logoobj = new LogoNodejs(this.web3, this.selectedAccount,DaoAddress[this.net]['logo'],this.para); }
-        return this.logoobj;ChangeSVG
+        return this.logoobj;
     }
     get tokens() { if (!this.tokensobj) this.tokensobj = new Tokens(this.web3, this.selectedAccount,DaoAddress[this.net]['token'],this.para); return this.tokensobj; }
     get utoken() { if (!this.utokenobj) this.utokenobj = new Utoken(this.web3, this.selectedAccount,DaoAddress[this.net]['utoken'],this.para); return this.utokenobj; }
-    get ethToToken() { if (!this.ethToTokenobj) this.ethToTokenobj = new EthToToken(this.web3, this.selectedAccount,DaoAddress[this.net]['ethTotoken'], this.utoken, this.commulate); return this.ethToTokenobj; }
+    get ethToToken() { if (!this.ethToTokenobj) this.ethToTokenobj = new EthToToken(this.web3, this.selectedAccount,DaoAddress[this.net]['ethToToken'], this.utoken, this.commulate); return this.ethToTokenobj; }
     get org() { if (!this.orgobj) this.orgobj = new Org(this.web3, this.selectedAccount,DaoAddress[this.net]['org'],this.para); return this.orgobj; }
     get getOrgId() { if (!this.getOrgIdobj) this.getOrgIdobj = new GetOrgId(this.web3, this.selectedAccount,DaoAddress[this.net]['getOrgId']); return this.getOrgIdobj; }
     get os() { if (!this.osobj) this.osobj = new Os(this.web3, this.selectedAccount,DaoAddress[this.net]['os'], this.getOrgId,this.para); return this.osobj; }
@@ -51,6 +51,7 @@ class DaoApi {
     get getInfo() { if (!this.getinfoobj) this.getinfoobj = new Getinfo(this.web3, this.selectedAccount,DaoAddress[this.net]['getInfo']); return this.getinfoobj; }
     get changesvg() { if (!this.changesvgobj) this.changesvgobj = new ChangeSVG(this.web3, this.selectedAccount,DaoAddress[this.net]['changeSVG']); return this.changesvgobj; }
     get allapp() { if (!this.allappobj) this.allappobj = new Allapp(this.web3, this.selectedAccount,DaoAddress[this.net]['allapp']); return this.allappobj; }
+    get appstore() { if (!this.appstoreobj) this.appstoreobj = new AppStore(this.web3, this.selectedAccount,DaoAddress[this.net]['appstore']); return this.appstoreobj; }
 
     get version(){return '1.0.14';}
 
@@ -82,6 +83,7 @@ class DaoApi {
         this.getinfoobj=null;
         this.changesvgobj=null;
         this.allappobj=null;
+        this.appstoreobj=null;
 
 
         // this.commulate = new Commulate(this.web3, this.selectedAccount);
