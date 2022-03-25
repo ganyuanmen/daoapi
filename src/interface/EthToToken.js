@@ -1,30 +1,34 @@
 'use strict';
 class EthToToken
 {
-    async ETHToExactToken(_ethmin,_utokenmin,_id,_eth) {
-        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
-        let result= await this.contract.methods.ETHToExactToken(_ethmin,_utokenmin,_id).send({from: this.selectedAccount, value: this.web3.utils.toHex(_eth)});
-        return result;
-    }
+    // async ETHToExactToken(_ethmin,_utokenmin,_id,_eth) {
+    //     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+    //     let result= await this.contract.methods.ETHToExactToken(_ethmin,_utokenmin,_id).send({from: this.selectedAccount, value: this.web3.utils.toHex(_eth)});
+    //     return result;
+    // }
     
     async ethToToken(_eth,_id) {
-        let result = await this._ethTotoken(_eth,_id);
-        return result;
+       if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+       let e=await this.utoken.getEthToNDAOInputPrice(_eth);
+       let e1=await this.commulate.wutokenToToken(e.outAmountWei,_id);
+       let result= await this.contract.methods.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id).send({from: this.selectedAccount, value: this.web3.utils.toHex(this.web3.utils.toWei(_eth+'','ether'))});
+       return result;
+      
     }
-    _ethTotoken(_eth,_id)
-    {
-        let _this=this;
-        let p = new Promise(function (resolve, reject) {
-       _this.utoken.getEthToNDAOInputPrice(_eth).then(e=>{
-             _this.commulate.wutokenToToken(e.outAmountWei,_id).then(e1=>{
-               _this.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,_this.web3.utils.toWei(_eth+'','ether')).then(e2=>{
-                resolve(e2)
-               })
-             })
-           })
-        });
-        return p;
-    }
+    // _ethTotoken(_eth,_id)
+    // {
+    //     let _this=this;
+    //     let p = new Promise(function (resolve, reject) {
+    //    _this.utoken.getEthToNDAOInputPrice(_eth).then(e=>{
+    //          _this.commulate.wutokenToToken(e.outAmountWei,_id).then(e1=>{
+    //            _this.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,_this.web3.utils.toWei(_eth+'','ether')).then(e2=>{
+    //             resolve(e2)
+    //            })
+    //          })
+    //        })
+    //     });
+    //     return p;
+    // }
   
     setAddress(_address)
     {
@@ -41,7 +45,6 @@ class EthToToken
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
         this.address=_address;
-     //   console.log("----EthToToken-------->"+this.address);
       this.abi=[
         {
             "inputs": [

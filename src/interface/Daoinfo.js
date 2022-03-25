@@ -49,8 +49,7 @@ async  infosK(_address,_index) {
         this.viewcallContract=undefined;    
         this.viewCallAddress=_viewAddress;
         this.address=_address;
-      //  console.log("-----DaoinfoViewCALL------->"+this.address);
-      //  console.log("-----Daoinfo------->"+this.viewCallAddress);
+     
         this.abi=[
             {
                 "inputs": [

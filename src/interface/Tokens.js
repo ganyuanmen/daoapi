@@ -105,7 +105,7 @@ class Tokens
             this.tObj=null;
         }
         catch(e){
-            console.log(e);
+            console.error(e);
         }
     }
 
@@ -125,7 +125,7 @@ class Tokens
         this.para=_para;
         this.selectedAccount=_selectAccount;
         this.address=_address;
-      //  console.log("----Token-------->"+this.address);
+      
         this.abi=[
             {
                 "inputs": [

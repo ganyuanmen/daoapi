@@ -138,11 +138,6 @@ const JSZip= require('jszip')
     })
    
    }
-//    p(k)
-//    {
-//        var myDate = new Date();
-//        console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-//    }
 
    changeLogoEvent(maxBlockNumber,callbackFun) {
     const _this = this;
@@ -192,7 +187,7 @@ const JSZip= require('jszip')
         this.eventObj1=null;
     }
     catch(e){
-        console.log(e);
+        console.error(e);
     }
 }
     setAddress(_address)
@@ -212,7 +207,7 @@ const JSZip= require('jszip')
 
         this.selectedAccount=_selectAccount;
         this.address = _address;
-       // console.log("----logo-------->"+this.address);
+    
         this.abi=[
             {
                 "inputs": [

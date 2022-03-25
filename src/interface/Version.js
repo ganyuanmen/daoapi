@@ -16,7 +16,7 @@ class Version
         this.contract=undefined;    
 
         this.address=_address;
-      //  console.log("-----Version------->"+this.address);
+      
         this.abi=[
             {
                 "inputs": [

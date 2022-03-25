@@ -30,7 +30,7 @@ class CheckVote
         this.contract=undefined;    
       
         this.address=_address;
-       // console.log("----CheckVote-------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

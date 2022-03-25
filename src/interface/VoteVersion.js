@@ -17,7 +17,7 @@ class VoteVersion
         this.contract=undefined;    
 
         this.address=_address;
-      //  console.log("-----Voteversion------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

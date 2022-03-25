@@ -66,7 +66,7 @@ unsub()
         this.eventObj=null;
     }
     catch(e){
-        console.log(e);
+        console.error(e);
     }
 }
 setAddress(_address)
@@ -87,7 +87,7 @@ setAbi(_abi)
         this.para=_para;
         this.eventObj=undefined;
         this.address=_address;
-      //  console.log("----Org-------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

@@ -23,7 +23,7 @@ class EventSum
             this.voteToobj=null;
         }
         catch(e){
-            console.log(e);
+            console.error(e);
         }
     }
 
@@ -34,7 +34,7 @@ class EventSum
             filter: {}, 
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
-           // console.log(data);
+          
             if(!data || !data.returnValues) {
                 daolog.log("addProEvent error");
                 if(this.para) this.para.isError=true;
@@ -70,7 +70,7 @@ class EventSum
             filter: {}, 
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
-          //  console.log(data);
+        
             if(!data || !data.returnValues) {
                 daolog.log("execEvent error");
                 if(this.para) this.para.isError=true;
@@ -104,7 +104,7 @@ class EventSum
             filter: {}, 
             fromBlock: maxBlockNumber+1
         }, function (_error, data) {
-          //  console.log(data);
+          
             if(!data || !data.returnValues) {
                 daolog.log("voteToEvent error");
                 if(this.para) this.para.isError=true;
@@ -151,7 +151,6 @@ class EventSum
         this.address=_address;
         this.para=_para;
 
-      //  console.log("---EventSum--------->"+this.address);
         this.abi=[
             {
                 "anonymous": false,

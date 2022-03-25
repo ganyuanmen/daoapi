@@ -64,7 +64,7 @@ class Commulate
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
         this.address=_address;
-       // console.log("----Commulate-------->"+this.address);
+     
        this.abi=[
         {
             "inputs": [

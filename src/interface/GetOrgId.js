@@ -24,7 +24,7 @@ class GetOrgId
         this.contract=undefined;    
 
         this.address=_address;
-      //  console.log("------GetOrgId------>"+this.address);
+    
         this.abi=[
             {
                 "inputs": [

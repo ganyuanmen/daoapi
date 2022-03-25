@@ -4,80 +4,87 @@ const daolog = require("../utils");
 class IADD
 {
   
-    async NDAOToToken(_mintoken,_token,_id) {
+    // async NDAOToToken(_mintoken,_token,_id) {
       
-        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
-        let result= await this.contract.methods.NDAOToToken(_mintoken,_token,_id,this.selectedAccount).send({from: this.selectedAccount});
-        return result;
-    }
+    //     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+    //     let result= await this.contract.methods.NDAOToToken(_mintoken,_token,_id,this.selectedAccount).send({from: this.selectedAccount});
+    //     return result;
+    // }
 
     async utokenToToken(_amount,_id) {
-        let result = await this._utokenToToken(_amount,_id);
+       if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+       let e= await this.commulate.utokenToToken(_amount,_id);
+       let result= await this.contract.methods.NDAOToToken(e.outAmountWei,this.web3.utils.toWei(_amount+'','ether'),_id,this.selectedAccount).send({from: this.selectedAccount});
         return result;
     }
     
-    _utokenToToken(_amount,_id)
-    {
-        let _this=this;
-        let p = new Promise(function (resolve, reject) {
-       _this.commulate.utokenToToken(_amount,_id).then(e=>{      
-               _this.NDAOToToken(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
-                resolve(e2)
-               })
-           })
-        });
-        return p;
-    }
+    // _utokenToToken(_amount,_id)
+    // {
+    //     let _this=this;
+    //     let p = new Promise(function (resolve, reject) {
+    //    _this.commulate.utokenToToken(_amount,_id).then(e=>{      
+    //            _this.NDAOToToken(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
+    //             resolve(e2)
+    //            })
+    //        })
+    //     });
+    //     return p;
+    // }
  
 
 
-    async TokenToNDAO(_mintoken,_token,_id) {
-        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
-        let result= await this.contract.methods.TokenToNDAO(_mintoken,_token,_id,this.selectedAccount).send({from: this.selectedAccount});
-        return result;
-    }
+    // async TokenToNDAO(_mintoken,_token,_id) {
+    //     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+    //     let result= await this.contract.methods.TokenToNDAO(_mintoken,_token,_id,this.selectedAccount).send({from: this.selectedAccount});
+    //     return result;
+    // }
     async tokenToUtoken(_amount,_id) {
-        let result = await this._tokenToUtoken(_amount,_id);
+        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+        let e= await this.commulate.tokenToUtoken(_amount,_id);
+        let result= await this.contract.methods.TokenToNDAO(e.outAmountWei,this.web3.utils.toWei(_amount+'','ether'),_id,this.selectedAccount).send({from: this.selectedAccount});
         return result;
     }
     
-    _tokenToUtoken(_amount,_id)
-    {
-        let _this=this;
-        let p = new Promise(function (resolve, reject) {
-       _this.commulate.tokenToUtoken(_amount,_id).then(e=>{      
-               _this.TokenToNDAO(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
-                resolve(e2)
-               })
-           })
-        });
-        return p;
-    }
+    // _tokenToUtoken(_amount,_id)
+    // {
+    //     let _this=this;
+    //     let p = new Promise(function (resolve, reject) {
+    //    _this.commulate.tokenToUtoken(_amount,_id).then(e=>{      
+    //            _this.TokenToNDAO(e.outAmountWei,_this.web3.utils.toWei(_amount+'','ether'),_id).then(e2=>{
+    //             resolve(e2)
+    //            })
+    //        })
+    //     });
+    //     return p;
+    // }
 
 
-    async TokenToToken1(_mintoken1,_mintoken2,_token,_id1,_id2) {
-        if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
-        let result= await this.contract.methods.TokenToToken(_mintoken1,_mintoken2,_token,_id1,_id2,this.selectedAccount).send({from: this.selectedAccount});
-        return result;
-    }
+    // async TokenToToken1(_mintoken1,_mintoken2,_token,_id1,_id2) {
+    //     if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+    //     let result= await this.contract.methods.TokenToToken(_mintoken1,_mintoken2,_token,_id1,_id2,this.selectedAccount).send({from: this.selectedAccount});
+    //     return result;
+    // }
 
     async tokenToToken(_amount,_id1,_id2) {
-        let result = await this._tokenToToken(_amount,_id1,_id2);
-        return result;
+      //  let result = await this._tokenToToken(_amount,_id1,_id2);
+      if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
+      let e= await this.commulate._tokenToToken(_amount,_id1,_id2);
+      let result= await this.contract.methods.TokenToToken(e[0], e[1], this.web3.utils.toWei(_amount+'','ether'),_id1,_id2,this.selectedAccount).send({from: this.selectedAccount});
+      return result;
     }
     
-    _tokenToToken(_amount,_id1,_id2)
-    {
-        let _this=this;
-        let p = new Promise(function (resolve, reject) {
-       _this.commulate._tokenToToken(_amount,_id1,_id2).then(e=>{   
-               _this.TokenToToken1(e[0], e[1], _this.web3.utils.toWei(_amount+'','ether'),_id1,_id2).then(e2=>{
-                resolve(e2)
-               })
-           })
-        });
-        return p;
-    }
+    // _tokenToToken(_amount,_id1,_id2)
+    // {
+    //     let _this=this;
+    //     let p = new Promise(function (resolve, reject) {
+    //    _this.commulate._tokenToToken(_amount,_id1,_id2).then(e=>{   
+    //            _this.TokenToToken1(e[0], e[1], _this.web3.utils.toWei(_amount+'','ether'),_id1,_id2).then(e2=>{
+    //             resolve(e2)
+    //            })
+    //        })
+    //     });
+    //     return p;
+    // }
 
 
     getReal(v){
@@ -119,15 +126,11 @@ class IADD
 
         }
         catch(e){
-            console.log(e);
+            console.error(e);
         }
     }
 
-    // p(k)
-    // {
-    //     var myDate = new Date();
-    //     console.log(myDate.getHours()+":"+myDate.getMinutes()+":"+myDate.getSeconds()+"-->"+k)
-    // }
+    
     utokenTotokenEvent(maxBlockNumber,callbackFun) {
         const _this = this;
         if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, {from: this.selectedAccount});
@@ -259,7 +262,7 @@ class IADD
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
         this.address=_address;
-      //  console.log("-----IADD------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

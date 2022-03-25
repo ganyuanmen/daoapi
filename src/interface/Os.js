@@ -28,7 +28,7 @@ const daolog = require("../utils");
         this.daoeventobj=null;
        }
        catch(e){
-           console.log(e);
+           console.error(e);
        }
    }
 
@@ -125,7 +125,7 @@ constructor(_web3,_selectAccount,_address,_getOrgId,_para) {
     this.contract=undefined;    
   
     this.address=_address;
-   // console.log("-----Os------->"+this.address);
+   
     this.abi=[
         {
             "inputs": [

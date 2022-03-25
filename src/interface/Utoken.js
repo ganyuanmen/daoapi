@@ -57,9 +57,9 @@ const daolog = require("../utils");
     }
       
     async swapDETHTo(_address,_shu) {
-        console.log(_shu);
+      
         let _amount=this.web3.utils.toWei(_shu+'', 'ether');
-        console.log(_amount);
+      
         if(!this.contract)  this.contract=new this.web3.eth.Contract(this.abi,this.address , {from: this.selectedAccount});
         let re=  await  this.contract.methods.swapDETHTo(_address,_amount).send({from: this.selectedAccount});
         return re;
@@ -210,7 +210,7 @@ const daolog = require("../utils");
         this.dethswapObj=undefined;
         this.selectedAccount=_selectAccount;
         this.address=_address;
-       // console.log("----Utoken-------->"+this.address);
+      
         this.abi=[
             {
                 "inputs": [],

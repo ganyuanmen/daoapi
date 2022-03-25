@@ -67,7 +67,7 @@ setAbi(_abi)
         this.contract=undefined;    
 
         this.address=_address;
-      //  console.log("----Deth-------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

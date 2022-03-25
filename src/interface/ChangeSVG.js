@@ -32,7 +32,7 @@ class ChangeSVG
         this.contract=undefined;    
         
         this.address=_address;
-     //   console.log("----ChangeSVG-------->"+this.address);
+ 
         this.abi=[
             {
                 "inputs": [

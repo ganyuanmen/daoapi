@@ -15,7 +15,7 @@ class Getinfo
         this.contract=undefined;    
 
         this.address=_address;
-      //  console.log("----Getinfo-------->"+this.address);
+     
         this.abi=[
             {
                 "inputs": [

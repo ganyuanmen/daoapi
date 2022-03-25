@@ -23,7 +23,7 @@ class Application
             this.replaceobj=null;
         }
         catch(e){
-            console.log(e);
+            console.error(e);
         }
     }
 
@@ -123,7 +123,7 @@ class Application
         this.updateobj=undefined;
         this.replaceobj=undefined;
         this.address=_address;
-     //   console.log("---Application--------->"+this.address);
+ 
         this.abi=[
             {
                 "inputs": [

@@ -37,7 +37,7 @@ addAppEvent(maxBlockNumber,callbackFun) {
         filter: {}, 
         fromBlock: maxBlockNumber+1,
     }, function (_error, data) {
-        console.log(data);
+      
         if(!data || !data.returnValues) {
             daolog.log("addAppEvent error");
             if(this.para) this.para.isError=true;
@@ -74,7 +74,7 @@ addVersionEvent(maxBlockNumber,callbackFun) {
         filter: {}, 
         fromBlock: maxBlockNumber+1,
     }, function (_error, data) {
-       // console.log(data);
+      
         if(!data || !data.returnValues) {
             daolog.log("addVersionEvent error");
             if(this.para) this.para.isError=true;
@@ -119,7 +119,7 @@ unsub()
 
     }
     catch(e){
-        console.log(e);
+        console.error(e);
     }
 }
 setAddress(_address)
@@ -141,7 +141,7 @@ setAbi(_abi)
         this.addappObj=undefined;
         this.addeventObj=undefined;
         this.address=_address;
-      //  console.log("----Org-------->"+this.address);
+      
         this.abi=[
             {
                 "inputs": [],

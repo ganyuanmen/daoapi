@@ -51,7 +51,7 @@ async  exec(_proId,_voteaddress) {
         this.daoinfoObj=undefined;
         this.versionObj=undefined;
         this.address=_address;
-     //   console.log("---Vote--------->"+this.address);
+  
         this.abi=[
             {
                 "inputs": [
