@@ -88,8 +88,8 @@ class EventSum
                 "data": {
                     "proIndex": data.returnValues.index,
                     "voteDel":data.returnValues.voteDel,
-                    "address":eobj.from,
-                    "time":ee.timestamp
+                    "address":(eobj && eobj.from)?eobj.from:'',
+                    "time":(ee && ee.timestamp)?ee.timestamp:(new Date().getTime()+'').substring(0,10)
                 },
                 "event": "execEvent"})
             })

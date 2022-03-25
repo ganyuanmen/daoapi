@@ -147,7 +147,7 @@ const daolog = require("../utils");
                 "transactionHash": data.transactionHash,
                 "transactionIndex":data.transactionIndex,
                 "data": {
-                    "address": eobj.from,
+                    "address": (eobj && eobj.from)?eobj.from:'',
                     "to": data.returnValues[1],
                     "ethAmount":parseFloat(_this.web3.utils.fromWei(data.returnValues[2],'ether')).toFixed(4), 
                     "utokenAmount":parseFloat(_this.web3.utils.fromWei(data.returnValues[3],'ether')).toFixed(4),

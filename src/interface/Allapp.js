@@ -55,8 +55,8 @@ addAppEvent(maxBlockNumber,callbackFun) {
                     "indexRec": data.returnValues.indexRec,
                     "name": data.returnValues.name,
                     "index":data.returnValues.index,
-                    "address":eobj.from,
-                    "time":ee.timestamp
+                    "address":(eobj && eobj.from)?eobj.from:'',
+                    "time":(ee && ee.timestamp)?ee.timestamp:(new Date().getTime()+'').substring(0,10)
                 },
                 "event": "addAppEvent"})       
     })

@@ -46,7 +46,7 @@ async  getInitData(org_id) {
                 "data": {
                     "id": data.returnValues.id,
                     "name": data.returnValues.name,
-                    "org_manager":eobj.from,
+                    "org_manager":(eobj && eobj.from)?eobj.from:'',
                     "vote_address":data.returnValues.vote_del
                 },
                 "event": "orgCreateEvent"})

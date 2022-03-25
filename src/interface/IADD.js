@@ -155,7 +155,7 @@ class IADD
                     "data": {
                         "from": data.returnValues.spender,
                         "to": data.returnValues.to,
-                        "swap_time":ee.timestamp,
+                        "swap_time":(ee && ee.timestamp)?ee.timestamp:(new Date().getTime()+'').substring(0,10),
                         "tokenId":data.returnValues.id,
                         "utokenWei":data.returnValues.uAmount,
                         "tokenWei":data.returnValues.tokenAmount,
@@ -193,7 +193,7 @@ class IADD
                 "data": {
                     "from": data.returnValues.spender,
                     "to": data.returnValues.to,
-                    "swap_time":ee.timestamp,
+                    "swap_time":(ee && ee.timestamp)?ee.timestamp:(new Date().getTime()+'').substring(0,10),
                     "tokenId":data.returnValues.id,
                     "utokenWei":data.returnValues.uAmount,
                     "tokenWei":data.returnValues.tokenAmount,
@@ -229,7 +229,7 @@ class IADD
                 "data": {
                     "from": data.returnValues.spender,
                     "to": data.returnValues.to,
-                    "swap_time":ee.timestamp,
+                    "swap_time":(ee && ee.timestamp)?ee.timestamp:(new Date().getTime()+'').substring(0,10),
                     "fromTokenId":data.returnValues.id,
                     "toTokenId":data.returnValues.swapid,
                     "fromtokenWei":data.returnValues.tokenAmount,
