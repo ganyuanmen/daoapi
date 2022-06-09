@@ -6,8 +6,8 @@ const  JSZip= require('jszip')
 
  class LogoNodejs {
     async getLogo(id) {
-        if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-        let re = await this.contract.methods.getFile(id).call({ from: this.selectedAccount });
+       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        let re = await this.contract.getFile(id).call({ from: this.selectedAccount });
         let result = await this._getLogo(re[0], re[1]);
         return { src: result };
     }
@@ -56,8 +56,9 @@ const  JSZip= require('jszip')
 
     async _setLogo(id, logo, _type) {
 
-        if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-        let result = await this.contract.methods.setLogo(id, logo, _type).send({ from: this.selectedAccount });
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        let result = await this.contract.setLogo(id, logo, _type)
+        await result.wait()
         return result
 
     }
@@ -84,99 +85,7 @@ const  JSZip= require('jszip')
         return p;
     }
 
-    async _changeLogo(id, logo, _type) {
-        if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-        let result = await this.contract.methods.changeLogo(id, logo, _type).send({ from: this.selectedAccount });
-        return result;
-
-    }
-    async changeLogo(id, _file) {
-
-        let para = await this.setLogo1(id, _file);
-        let result = await this._changeLogo(id, para.logo, para.type);
-        return result;
-
-    }
-
-    unsub()
-    {
-        try{
-            if(this.eventObj2 && this.eventObj2.unsubscribe)
-            {
-                this.eventObj2.unsubscribe();
-            }
-            if(this.eventObj1 && this.eventObj1.unsubscribe)
-            {
-                this.eventObj1.unsubscribe();
-            }
-            this.eventObj2=null;
-            this.eventObj1=null;
-        }
-        catch(e){
-            console.error(e);
-        }
-    }
-    setLogoEvent(maxBlockNumber, callbackFun) {
-        const _this = this;
-        if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-       
-        this.eventObj1=this.contract.events.SetLogo({
-            filter: {},
-            fromBlock:maxBlockNumber+1
-        }, function (_error, data) {
-            if(!data || !data.returnValues) {
-                daolog.log("setLogoEvent error");
-                if(this.para) this.para.isError=true;
-                return;
-            }
-            _this.getLogo(data.returnValues.id).then(e => {
-                callbackFun.call(null, {
-                    "address": data.address,
-                    "blockHash": data.blockHash,
-                    "blockNumber": data.blockNumber,
-                    "transactionHash": data.transactionHash,
-                    "transactionIndex": data.transactionIndex,
-                    "data": {
-                        "daoId": data.returnValues.id,
-                        "src": e.src,
-                        "timestamp": data.returnValues.time
-                    },
-                    "event": "setLogoEvent"
-                })
-            })
-        })
-    }
-
-    changeLogoEvent(maxBlockNumber, callbackFun) {
-        const _this = this;
-        if (!this.contract) this.contract = new this.web3.eth.Contract(this.abi, this.address, { from: this.selectedAccount });
-       
-        this.eventObj2=this.contract.events.ChangeLogo({
-            filter: {},
-            fromBlock: maxBlockNumber+1
-        }, function (_error, data) {
-              if(!data || !data.returnValues) {
-                daolog.log("changeLogoEvent error");
-                if(this.para) this.para.isError=true;
-                return;
-            }
-            _this.getLogo(data.returnValues.id).then(e => {
-                callbackFun.call(null, {
-                    "address": data.address,
-                    "blockHash": data.blockHash,
-                    "blockNumber": data.blockNumber,
-                    "transactionHash": data.transactionHash,
-                    "transactionIndex": data.transactionIndex,
-                    "data": {
-                        "daoId": data.returnValues.id,
-                        "src": e.src,
-                        "timestamp": data.returnValues.time
-                    },
-                    "event": "changeLogoEvent"
-                })
-            })   
-        })
-    }
+   
 
     setAddress(_address) {
         this.address = _address;
@@ -184,12 +93,10 @@ const  JSZip= require('jszip')
     setAbi(_abi) {
         this.abi = _abi;
     }
-    constructor(_web3, _selectAccount,_address,_para) {
-        this.web3 = _web3;
+    constructor(_ether,_etherProvider, _selectAccount,_address,_para) {
+        this.etherProvider = _etherProvider;
         this.contract = undefined;
-        this.eventObj1=undefined;
-        this.para=_para;
-        this.eventObj2=undefined
+      
 
         this.selectedAccount = _selectAccount;
         this.address = _address;
