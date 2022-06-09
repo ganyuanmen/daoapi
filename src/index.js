@@ -8,18 +8,9 @@ const Dao_uToken = require("./interface/Dao_uToken");
 const Dao_ethToken = require("./interface/Dao_ethToken");
 const Dao_org = require("./interface/Dao_org");
 const Dao_app = require("./interface/Dao_app");
-// const Os = require("./interface/Os");
  const Dao_deth = require("./interface/Dao_deth");
  const Dao_value = require("./interface/Dao_value");
-// const AppStore = require("./interface/AppStore");
-// const CheckVote = require("./interface/CheckVote");
-// const Application = require('./interface/Application');
-// const Daoinfo = require("./interface/Daoinfo");
-// const Version = require("./interface/Version");
-// const EventSum = require("./interface/EventSum");
  const Dao_appInfo = require("./interface/Dao_appInfo");
-// const ChangeSVG= require("./interface/ChangeSVG");
-// const Allapp= require("./interface/Allapp");
 
 
 class DaoApi {
@@ -60,92 +51,6 @@ class DaoApi {
         this.dao_app_obj=null;
        
     }
-
-    
- str2UTF8(str) {
-    var bytes = new Array();
-    var len, c;
-    len = str.length;
-    for (var i = 0; i < len; i++) {
-        c = str.charCodeAt(i);
-        if (c >= 0x010000 && c <= 0x10FFFF) {
-            bytes.push(((c >> 18) & 0x07) | 0xF0);
-            bytes.push(((c >> 12) & 0x3F) | 0x80);
-            bytes.push(((c >> 6) & 0x3F) | 0x80);
-            bytes.push((c & 0x3F) | 0x80);
-        } else if (c >= 0x000800 && c <= 0x00FFFF) {
-            bytes.push(((c >> 12) & 0x0F) | 0xE0);
-            bytes.push(((c >> 6) & 0x3F) | 0x80);
-            bytes.push((c & 0x3F) | 0x80);
-        } else if (c >= 0x000080 && c <= 0x0007FF) {
-            bytes.push(((c >> 6) & 0x1F) | 0xC0);
-            bytes.push((c & 0x3F) | 0x80);
-        } else {
-            bytes.push(c & 0xFF);
-        }
-    }
-    return bytes;
-}
-
- Bytes2HexString(arrBytes) {
-    var str = "";
-    for (var i = 0; i < arrBytes.length; i++) {
-      var tmp;
-      var num=arrBytes[i];
-      if (num < 0) {
-      //此处填坑，当byte因为符合位导致数值为负时候，需要对数据进行处理
-        tmp =(255+num+1).toString(16);
-      } else {
-        tmp = num.toString(16);
-      }
-      if (tmp.length == 1) {
-        tmp = "0" + tmp;
-      }
-      str += tmp;
-    }
-    return str;
-  }
-
-  typedData(_chainId,_index,_proHash){
-      return {
-        types: {
-          EIP712Domain: [
-            {name: "name", type: "string"},
-            {name: "version", type: "string"},
-            {name: "chainId", type: "uint256"},
-            {name: "verifyingContract", type: "address"},
-          ],
-          Permit: [
-            {name: "index", type: "uint16"},
-            {name: "owner", type: "address"}, 
-            {name: "_hash", type: "bytes32"},  
-            {name: "deadline", type: "uint"}
-          ]
-        },
-        primaryType: 'Permit',
-        domain: {
-          name: 'org',
-          version: '1',
-          chainId: _chainId,
-          verifyingContract: this.dao_org.address
-        },
-        message: {
-          'index': _index,
-          'owner': this.selectedAccount,
-          '_hash': _proHash,
-          'deadline':'1000000000000000'
-        }
-      }
-    }
-
-
-singerType() {
- 
-  return  {Permit: [{name: "index", type: "uint16"},{name: "owner", type: "address"}, 
-  {name: "_hash", type: "bytes32"}, {name: "deadline", type: "uint"}]}
-
-}
-
 }
 
 if (typeof window === 'object') {
