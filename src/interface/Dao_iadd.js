@@ -3,7 +3,7 @@ class Dao_iadd
 {
   
     async utokenToToken(_amount,_id) {
-       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
        let e= await this.commulate.utokenToToken(_amount,_id);
        let result= await this.contract.NDAOToToken(e.outAmountWei,this.ether.utils.parseEther(_amount+''),_id,this.selectedAccount);
        await result.wait();
@@ -11,7 +11,7 @@ class Dao_iadd
     }
    
     async tokenToUtoken(_amount,_id) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let e= await this.commulate.tokenToUtoken(_amount,_id);
         let result= await this.contract.TokenToNDAO(e.outAmountWei,this.ether.utils.parseEther(_amount+''),_id,this.selectedAccount);
         await result.wait()
@@ -21,7 +21,7 @@ class Dao_iadd
 
     async tokenToToken(_amount,_id1,_id2) {
     
-      if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+      if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
       let e= await this.commulate._tokenToToken(_amount,_id1,_id2);
       let result= await this.contract.TokenToToken(e[0], e[1], this.ether.utils.parseEther(_amount+''),_id1,_id2,this.selectedAccount);
       await result.wait()
@@ -41,7 +41,7 @@ class Dao_iadd
     }
 
     async getPool(_id) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.getPool(_id);
         return {utoken: this.ether.utils.formatEther(this.getReal(result.uToken.toString()),'ether'),utokenWei:this.getReal(result.uToken.toString())};
     

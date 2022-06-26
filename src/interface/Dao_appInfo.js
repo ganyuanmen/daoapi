@@ -2,7 +2,7 @@ const appInfo_abi=require('../data/appInfo_abi');
 class Dao_appInfo
 {
     async  getInfo(_daoId,_appindex) {    
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));   
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);   
         let result = await this.contract.getInfo(_daoId,_appindex);
         return result;
    }

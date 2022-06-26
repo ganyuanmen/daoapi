@@ -3,7 +3,7 @@ class Dao_app
 {
    //添加app
     async  addApp(_name,_desc,_to) {    
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result = await this.contract.addApp(_name,_desc,_to);
         await result.wait()
         return result;

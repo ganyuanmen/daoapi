@@ -4,20 +4,20 @@ class Dao_deth
  
  
 async  takeRecord() {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.takeRecord();
     await result.wait();
     return result;
 }
 
 async  dEth(_address) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.dEth(_address);
     return {address:_address,outAmountWei: result.toString(),outAmount:this.ether.utils.formatEther(result)};
 }
 
 async  balanceOf(_address) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.balanceOf(_address);
     return {address:_address,outAmountWei: result.toString(),outAmount:this.ether.utils.formatEther(result)};
  
@@ -27,7 +27,7 @@ async  balanceOf(_address) {
 
 
 async  setSingle(_address,_lok) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.setSingle(_address,_lok);
     await result.wait();
     return result;
@@ -35,7 +35,7 @@ async  setSingle(_address,_lok) {
 
 
 async  setVersion(_address,_lok) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.setVersion(_address,_lok);
     await result.wait();
     return result;
@@ -43,14 +43,14 @@ async  setVersion(_address,_lok) {
 
 
   async allowance(_owneraddress,_speneraddress) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.allowance(_owneraddress,_speneraddress);
         return {approveSumWei: result.toString(),approveSum:this.ether.utils.formatEther(result)};
     }
 
     
   async isAllowSingle(_speneraddress) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.isAllowSingle(_speneraddress);
         return result;
     }
@@ -58,7 +58,7 @@ async  setVersion(_address,_lok) {
 
 
 async  approve(_address,_amount) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let result = await this.contract.approve(_address,this.ether.utils.parseEther(_amount));
     await result.wait();
     return result;

@@ -17,7 +17,7 @@ class Dao_register
    */
  
 async  createOrg(_name, _symbol,_desc, _manager, _token,_version,_appIndex, _members,_votes, _cause) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
 
     const _gas = await this.contract.estimateGas.createOrg(_name, _symbol,_desc, _manager, _token,_version,_appIndex, _members,_votes, _cause);
    let result = await this.contract.createOrg(_name, _symbol,_desc,_manager, _token,_version,_appIndex, _members,_votes, _cause,{gasLimit:parseInt(_gas.toString())+400000});
@@ -29,7 +29,7 @@ async  createOrg(_name, _symbol,_desc, _manager, _token,_version,_appIndex, _mem
   
  
 async  init(_address1,_address2) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
 
    let result = await this.contract.init(_address1,_address2,{gasLimit:'6400000'});
  
@@ -38,7 +38,7 @@ async  init(_address1,_address2) {
 }
 
 async  getInfo(_id) {    
-     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
      let result = await this.contract.getInfo(_id);
      return result;
 }

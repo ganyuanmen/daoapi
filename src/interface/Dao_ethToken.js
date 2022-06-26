@@ -4,7 +4,7 @@ class Dao_ethToken
   
     
     async ethToToken(_eth,_id) {
-       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
        let e=await this.utoken.getEthToNDAOInputPrice(_eth);
        let e1=await this.commulate.wutokenToToken(e.outAmountWei,_id);
        let result= await this.contract.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,{value:this.ether.utils.parseEther(_eth+'')})

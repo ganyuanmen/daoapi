@@ -47,16 +47,16 @@ class Dao_org
   }
    
     async  getInfo() {    
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result = await this.contract.getInfo();
         return result;
    }
    
    
     async  vote(_chainId, _index, _hash) {    
-    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+    if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
     let typedData=this.getTypedData(_chainId,_index,_hash);
-    let result = await this.etherProvider.getSigner(0)._signTypedData(typedData.domain,this.singerType(),typedData.message)
+    let result = await this.etherProvider._signTypedData(typedData.domain,this.singerType(),typedData.message)
     return result;
 }
    
@@ -89,7 +89,7 @@ async  exec(data,_hash,_name,_address,_cause,_daoId,_abi,_fname,_para) {
         eip712Sign.push([data[i]['dao_index'],data[i]['vote_address'],_hash,'1000000000000000',...this.makeSignature(data[i]['vote_singer'])])
     }
     const delOrg = await this.daoValue.getOrg(_daoId)
-    let _delOrgC = new this.ether.Contract(delOrg,this.abi , this.etherProvider.getSigner(0));
+    let _delOrgC = new this.ether.Contract(delOrg,this.abi , this.etherProvider);
     let _pro = this.makePro(_name,_address,_cause,_daoId,_abi,_fname,_para)
     let result = await  _delOrgC.exec(eip712Sign,_hash,_pro,{gasLimit:'6400000'})
    // const _gas = await this.contract.estimateGas.exec(_eip712Sign, _proHash, _pro);

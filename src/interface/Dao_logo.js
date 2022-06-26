@@ -3,7 +3,7 @@ const JSZip= require('jszip')
 
  class Dao_logo {
     async getLogo(id) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let re = await this.contract.getFile(id);
         let result= await this._getLogo(re[0],re[1]);
         return {src: result};
@@ -65,7 +65,7 @@ const JSZip= require('jszip')
 
     async setLogo(id, logo,_type) {
 
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         const _gas = await this.contract.estimateGas.setLogo(id, logo, _type);
         let result = await this.contract.setLogo(id, logo, _type,{gasLimit:parseInt(_gas.toString())+400000});
         await result.wait()

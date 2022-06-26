@@ -3,13 +3,13 @@ const uToken_abi=require('../data/uToken_abi');
 {
     async getEthToNDAOInputPrice(_value) {
         let _eth=this.ether.utils.parseEther(_value+'');
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.addethToNDAOInputPrice(_eth);
         return {inAmount:_value+'',outAmount: this.ether.utils.formatEther(result),inAmountWei:_eth.toString(),outAmountWei:result.toString()};
     }
 
     async getPrice() {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.getPrice();
         let _a = result.toString().split('').reverse();
         let _b = _a.length
@@ -29,34 +29,34 @@ const uToken_abi=require('../data/uToken_abi');
     }
 
     async balanceOf(_address) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.balanceOf(_address);
         return {utoken: this.ether.utils.formatEther(result),utokenWei:result.toString()};
     }
 
     async allowance(_owneraddress,_speneraddress) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.allowance(_owneraddress,_speneraddress);
         return {approveSumWei: result.toString(),approveSum:this.ether.utils.formatEther(result)};
     }
 
 
     async  approve(_spaneraddress,_amount) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let tx=  await  this.contract.functions['approve(address,uint256)'](_spaneraddress,this.ether.utils.parseEther(_amount));
         await tx.wait();
         return tx;
     }
 
     async swap(v) {
-      if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+      if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let tx = await this.contract.swap({value: this.ether.utils.parseEther(v+'')});
         await tx.wait();
         return tx;
     }
       
     async swapDETHTo(_address,_shu) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let tx=  await  this.contract.functions['swapDETHTo(address,uint256)'](_address,this.ether.utils.parseEther(_shu+'').toString());
         await tx.wait();
         return tx;
