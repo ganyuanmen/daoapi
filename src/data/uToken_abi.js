@@ -1,4 +1,4 @@
-const uToken_abi={address:'0xc66556B1ac1b843bE29112EfC666868a4493EbF1',
+const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
  abi:[
   {
     "inputs": [],

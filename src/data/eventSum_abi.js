@@ -1,4 +1,4 @@
-const eventSum_abi={address:'0xb76af77B741c35fE8E179bc19Db736500B0d9aDD',
+const eventSum_abi={address:'0xc59352eDeCeAD43Db09BDDaE75a62EC393fF5B36',
  abi:[
   {
     "anonymous": false,

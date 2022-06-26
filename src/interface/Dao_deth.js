@@ -60,6 +60,7 @@ async  setVersion(_address,_lok) {
 async  approve(_address,_amount) {    
     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider.getSigner(0));
     let result = await this.contract.approve(_address,this.ether.utils.parseEther(_amount));
+    await result.wait();
     return result;
     }
    

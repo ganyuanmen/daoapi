@@ -83,7 +83,7 @@ makePro(_name,_address,_cause,_daoId,_abi,_fname,_para)
     }
 }
 
-async  excu(data,_hash,_name,_address,_cause,_daoId,_abi,_fname,_para) {
+async  exec(data,_hash,_name,_address,_cause,_daoId,_abi,_fname,_para) {
     let eip712Sign = []
     for(let i = 0;i < data.length;i++){
         eip712Sign.push([data[i]['dao_index'],data[i]['vote_address'],_hash,'1000000000000000',...this.makeSignature(data[i]['vote_singer'])])

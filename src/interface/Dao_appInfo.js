@@ -1,4 +1,4 @@
-const appInfo_abi=require('daoapi/src/data/appInfo_abi');
+const appInfo_abi=require('../data/appInfo_abi');
 class Dao_appInfo
 {
     async  getInfo(_daoId,_appindex) {    

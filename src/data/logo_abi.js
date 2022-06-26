@@ -1,4 +1,4 @@
-const logo_abi={address:'0x9c98D89DAcbaaC505CdF08620Fd6c16A27c78f26',
+const logo_abi={address:'0x822f0Dc295505a062412b229C872a1a094FFA109',
  abi:[
   {
     "inputs": [
