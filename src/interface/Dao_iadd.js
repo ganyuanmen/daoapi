@@ -57,14 +57,14 @@ class Dao_iadd
     {
         this.abi=_abi;
     }
-    constructor(_ether,_etherProvider,_selectAccount,_commulate) {
+    constructor(_ether,_etherProvider,_selectAccount,_commulate,_address) {
       
         this.commulate=_commulate;
         this.etherProvider=_etherProvider;this.ether=_ether;
       
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address=iadd_abi.address;
+        this.address=_address;
      
         this.abi=iadd_abi.abi
        }

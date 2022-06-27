@@ -79,11 +79,11 @@ class Dao_erc20s
     {
         this.abi=_abi;
     }
-    constructor(_ether,_etherProvider,_selectAccount) {
+    constructor(_ether,_etherProvider,_selectAccount,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address=erc20s_abi.address;
+        this.address=_address;
         this.abi=erc20s_abi.abi
     }
 }

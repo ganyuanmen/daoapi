@@ -20,11 +20,11 @@ setAbi(_abi)
 }
 
 
-    constructor(_ether,_etherProvider,_selectAccount) {
+    constructor(_ether,_etherProvider,_selectAccount,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;        
-        this.address=app_abi.address;
+        this.address=_address;
         this.abi= app_abi.abi
     }
 }

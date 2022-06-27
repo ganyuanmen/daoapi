@@ -97,13 +97,13 @@ async  exec(data,_hash,_name,_address,_cause,_daoId,_abi,_fname,_para) {
     return result;
 }
 
-    constructor(_ether,_etherProvider,_selectAccount,_valueObj) {
+    constructor(_ether,_etherProvider,_selectAccount,_valueObj,_address) {
         this.daoValue=_valueObj
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;    
        
-       this.address=org_abi.address;
+       this.address=_address;
         this.abi= org_abi.abi
     }
 }

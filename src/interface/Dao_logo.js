@@ -81,14 +81,14 @@ const JSZip= require('jszip')
     {
         this.abi=_abi;
     }
-    constructor(_ether,_etherProvider,_selectAccount) {
+    constructor(_ether,_etherProvider,_selectAccount,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.contract=undefined;
        
 
         this.selectedAccount=_selectAccount;
 
-        this.address=logo_abi.address;   
+        this.address=_address;   
         this.abi=logo_abi.abi
 
     }

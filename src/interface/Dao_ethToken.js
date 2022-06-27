@@ -22,13 +22,13 @@ class Dao_ethToken
     {
         this.abi=_abi;
     }
-    constructor(_ether,_etherProvider,_selectAccount,_utoekn,_commulate) {
+    constructor(_ether,_etherProvider,_selectAccount,_utoekn,_commulate,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.utoken=_utoekn;
         this.commulate=_commulate;
         this.contract=undefined;
         this.selectedAccount=_selectAccount;
-        this.address=ethToken_abi.address;
+        this.address=_address;
       this.abi=ethToken_abi.abi
 
     }

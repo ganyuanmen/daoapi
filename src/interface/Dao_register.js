@@ -53,11 +53,11 @@ async  getInfo(_id) {
         this.abi=_abi;
     }
 
-    constructor(_ether,_etherProvider,_selectAccount) {
+    constructor(_ether,_etherProvider,_selectAccount,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;        
-        this.address=register_abi.address;
+        this.address=_address;
         this.abi=register_abi.abi
     }
 }

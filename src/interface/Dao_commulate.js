@@ -41,12 +41,12 @@ class Dao_commulate
         return {inAmountWei:_shu,outAmountWei: result[1].toString(),inAmount:_value+'',outAmount:this.ether.utils.formatEther(result[1])};
     }
 
-    async _tokenToToken(_value,_id1,_id2) {
-        let _shu = this.ether.utils.parseEther(_value + "").toString();
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-        let result= await this.contract.TokenToToken(_shu,_id1,_id2);
-        return result;
-    }
+    // async _tokenToToken(_value,_id1,_id2) {
+    //     let _shu = this.ether.utils.parseEther(_value + "").toString();
+    //     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
+    //     let result= await this.contract.TokenToToken(_shu,_id1,_id2);
+    //     return result;
+    // }
   
     
   
@@ -59,11 +59,11 @@ class Dao_commulate
         this.abi=_abi;
     }
     
-    constructor(_ether,_etherProvider,_selectAccount) {
+    constructor(_ether,_etherProvider,_selectAccount,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
         this.selectedAccount=_selectAccount;
         this.contract=undefined;        
-        this.address=commulate_abi.address;
+        this.address=_address;
      
        this.abi=commulate_abi.abi
     }
