@@ -73,12 +73,16 @@ makePro(_name,_address,_cause,_daoId,_abi,_fname,_para)
 {
     let ifa = new this.ether.utils.Interface(_abi);
     let installData = ifa.encodeFunctionData(_fname,JSON.parse(_para));  
+    let _hash=this.makeHash(_name,_address,_cause,_daoId,false,installData)
     return {
         name:_name,
         app:_address, //实际执行的合约
         cause:_cause,  //安装的合约
         daoId:_daoId,
+        functionName:_fname,
+        functionPara:_para,
         status:false,
+        proHash:_hash,
         data:installData
     }
 }

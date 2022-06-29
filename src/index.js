@@ -27,10 +27,10 @@ class DaoApi {
     get dao_app() { if (!this.dao_app_obj) this.dao_app_obj = new Dao_app(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['app']); return this.dao_app_obj; }
     get dao_deth() { if (!this.dao_deth_obj) this.dao_deth_obj = new Dao_deth(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['deth']); return this.dao_deth_obj; }
     get dao_value() { if (!this.dao_value_obj) this.dao_value_obj = new Dao_value(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['value']); return this.dao_value_obj; }
-    get dao_register() { if (!this.dao_register_obj) this.dao_register_obj = new Dao_register(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['register']); return this.dao_register_obj; }
+    get dao_register() { if (!this.dao_register_obj) this.dao_register_obj = new Dao_register(this.ether,this.provider, this.selectedAccount,this.dao_value,daismAddress[this.network]['register']); return this.dao_register_obj; }
     get dao_appInfo() { if (!this.dao_appInfo_obj) this.dao_appInfo_obj = new Dao_appInfo(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['appInfo']); return this.dao_appInfo_obj; }
   
-    get version(){return '1.0.21';}
+    get version(){return '1.0.22';}
 
 
     constructor(_ether,_etherProvider, _selectAccount,_network) {

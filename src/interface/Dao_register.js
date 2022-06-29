@@ -1,5 +1,5 @@
 const register_abi=require('../data/register_abi');
-
+const org_abi=require('../data/org_abi');
 class Dao_register
 {
  
@@ -37,12 +37,56 @@ async  init(_address1,_address2) {
     return result;
 }
 
+
+   
+async  get_A_V(_id,_address) {    
+    let _contract=new this.ether.Contract(_address,org_abi.abi , this.etherProvider);
+    let result=await _contract.getAccounts_Votes();
+    let _acar=[];
+    let _vtar=[];
+    for(let i=0;i<result.length;i++)
+    {
+        if(parseInt(result[i]['vote'])>0) {
+         _acar.push(result[i]["account"])
+         _vtar.push(result[i]["vote"])
+        } else break;
+         
+    }
+   
+    return {accounts:_acar,votes:_vtar};
+}
+
 async  getInfo(_id) {    
      if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
      let result = await this.contract.getInfo(_id);
      return result;
 }
 
+    async getDaoInfo(_id)
+    {
+        let _info=await  this.getInfo(_id)
+        if(_info.name==="") {
+            return   {
+                daoId:0,
+                manager:'',
+                name:'',
+                symbol:'',
+                describe:'',
+                accounts_votes:[]
+            }
+        }
+        let _address=await this.valuec.getOrg(_id);
+        
+        let _accounts_votes= await this.get_A_V(_id,_address)
+        return   {
+            daoId:_id,
+            manager:_info.manager,
+            name:_info.name,
+            symbol:_info.symbol,
+            describe:_info.desc,
+            accounts_votes:_accounts_votes
+        }
+    }
   
    setAddress(_address)
     {
@@ -53,8 +97,9 @@ async  getInfo(_id) {
         this.abi=_abi;
     }
 
-    constructor(_ether,_etherProvider,_selectAccount,_address) {
+    constructor(_ether,_etherProvider,_selectAccount,valuec,_address) {
         this.etherProvider=_etherProvider;this.ether=_ether;
+        this.valuec=valuec
         this.selectedAccount=_selectAccount;
         this.contract=undefined;        
         this.address=_address;
