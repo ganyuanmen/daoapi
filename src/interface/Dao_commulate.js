@@ -41,12 +41,13 @@ class Dao_commulate
         return {inAmountWei:_shu,outAmountWei: result[1].toString(),inAmount:_value+'',outAmount:this.ether.utils.formatEther(result[1])};
     }
 
-    // async _tokenToToken(_value,_id1,_id2) {
-    //     let _shu = this.ether.utils.parseEther(_value + "").toString();
-    //     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-    //     let result= await this.contract.TokenToToken(_shu,_id1,_id2);
-    //     return result;
-    // }
+    //供iadd token to token 使用，不能取消
+    async _tokenToToken(_value,_id1,_id2) {
+        let _shu = this.ether.utils.parseEther(_value + "").toString();
+        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
+        let result= await this.contract.TokenToToken(_shu,_id1,_id2);
+        return result;
+    }
   
     
   
