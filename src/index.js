@@ -30,7 +30,7 @@ class DaoApi {
     get dao_register() { if (!this.dao_register_obj) this.dao_register_obj = new Dao_register(this.ether,this.provider, this.selectedAccount,this.dao_value,daismAddress[this.network]['register']); return this.dao_register_obj; }
     get dao_appInfo() { if (!this.dao_appInfo_obj) this.dao_appInfo_obj = new Dao_appInfo(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['appInfo']); return this.dao_appInfo_obj; }
   
-    get version(){return '1.0.22';}
+    get version(){return '1.0.23';}
 
 
     constructor(_ether,_etherProvider, _selectAccount,_network) {

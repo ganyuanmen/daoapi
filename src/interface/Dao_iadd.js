@@ -22,7 +22,7 @@ class Dao_iadd
     async tokenToToken(_amount,_id1,_id2) {
     
       if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-      let e= await this.commulate._tokenToToken(_amount,_id1,_id2);
+      let e= await this.commulate.tokenToToken(_amount,_id1,_id2);
       let result= await this.contract.TokenToToken(e[0], e[1], this.ether.utils.parseEther(_amount+''),_id1,_id2,this.selectedAccount);
       await result.wait()
       return result;
