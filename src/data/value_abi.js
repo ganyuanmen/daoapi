@@ -1,5 +1,4 @@
-const value_abi={address:'0x11eFE10ED7931ff9A5fb1c844d238a2478b1172E',
- abi:[
+const value_abi={abi:[
   {
     "inputs": [
       {

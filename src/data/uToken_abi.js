@@ -1,5 +1,4 @@
-const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
- abi:[
+const uToken_abi={abi:[
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -193,16 +192,16 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "ETHUSDC",
+    "outputs": [
       {
-        "internalType": "uint256",
-        "name": "supply_",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
-    "name": "addETH",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -219,6 +218,11 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint160",
+        "name": "",
+        "type": "uint160"
       }
     ],
     "stateMutability": "view",
@@ -305,19 +309,6 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_deth",
-        "type": "address"
-      }
-    ],
-    "name": "changeDeth",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "decimals",
     "outputs": [
@@ -350,7 +341,7 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
   },
   {
     "inputs": [],
-    "name": "dethIn",
+    "name": "dethBurn",
     "outputs": [
       {
         "internalType": "uint256",
@@ -363,7 +354,7 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
   },
   {
     "inputs": [],
-    "name": "dethOut",
+    "name": "ethBurn",
     "outputs": [
       {
         "internalType": "uint256",
@@ -391,16 +382,23 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "eth_input_amount",
+        "name": "_ethSupply",
         "type": "uint256"
       }
     ],
-    "name": "ethToNDAOInputPrice",
+    "name": "ethSupplyChange",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPriceX96",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "uint160",
+        "name": "sqrtPriceX96",
+        "type": "uint160"
       }
     ],
     "stateMutability": "view",
@@ -408,25 +406,12 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
   },
   {
     "inputs": [],
-    "name": "eth_supply",
+    "name": "highestPrice",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -453,42 +438,19 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "initPrice_",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "ndao_supply_",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "eth_supply_",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "_deth",
+        "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_deth",
+        "name": "ethUSDC",
         "type": "address"
       }
     ],
     "name": "init",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "initPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -506,64 +468,12 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
   },
   {
     "inputs": [],
-    "name": "ndaoSupply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ndao_supply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "owner",
     "outputs": [
       {
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "price_denominator",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "price_numerator",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -715,19 +625,6 @@ const uToken_abi={address:'0x44bA276b609f29100d25FEe4924CDe1147DB8675',
     ],
     "name": "transferOwnership",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "updatePrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },

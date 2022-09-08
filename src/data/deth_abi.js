@@ -1,5 +1,4 @@
-const deth_abi={address:'0x897ebE7d507cfAd159b35a1501d4A925FdA77223',
- abi:[
+const deth_abi={abi:[
   {
     "inputs": [
       {

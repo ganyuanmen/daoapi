@@ -1,5 +1,4 @@
-const appInfo_abi={address:'0x6d2E5952062b966Ea03831Ab6Da4ff4ee0D44D75',
- abi:[
+const appInfo_abi={abi:[
   {
     "inputs": [
       {

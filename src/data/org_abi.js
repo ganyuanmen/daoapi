@@ -1,5 +1,4 @@
-const org_abi={address:'0x483e33445519101255dc7D6b5059d83de7d751F8',
- abi:[
+const org_abi={abi:[
   {
     "inputs": [
       {

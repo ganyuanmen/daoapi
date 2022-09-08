@@ -1,5 +1,4 @@
-const erc20s_abi={address:'0xD61f63A1D40b361F31160943f152b3666B2440e2',
- abi:[
+const erc20s_abi={abi:[
   {
     "inputs": [
       {

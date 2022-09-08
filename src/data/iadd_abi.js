@@ -1,5 +1,4 @@
-const iadd_abi={address:'0x0518F39A75F9fD36f0159E3DaeC22480735AEdF1',
- abi:[
+const iadd_abi={abi:[
   {
     "inputs": [
       {

@@ -1,5 +1,4 @@
-const register_abi={address:'0xa7bd592AE2275639F4a06F158b510e8D2E311dbe',
- abi:[
+const register_abi={abi:[
   {
     "inputs": [
       {

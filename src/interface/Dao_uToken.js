@@ -5,27 +5,28 @@ const uToken_abi=require('../data/uToken_abi');
         let _eth=this.ether.utils.parseEther(_value+'');
         if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result= await this.contract.addethToNDAOInputPrice(_eth);
-        return {inAmount:_value+'',outAmount: this.ether.utils.formatEther(result),inAmountWei:_eth.toString(),outAmountWei:result.toString()};
+        return {inAmount:_value+'',outAmount: this.ether.utils.formatEther(result[0].toString()),inAmountWei:_eth.toString(),outAmountWei:result[0].toString()};
     }
 
     async getPrice() {
         if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-        let result= await this.contract.getPrice();
-        let _a = result.toString().split('').reverse();
-        let _b = _a.length
-        if (_a.length < 8) {
-            for (let i = 0; i < 8 - _b; i++) {
-                _a.push('0');
-            }
-        }
-        _a.splice(8, 0, ".")
-        if (_a[_a.length - 1] == '.') {
-            _a.push('0')
-        }
-        let _c = _a.reverse().join('');
+        let result= await this.contract.highestPrice();
+        // console.log(result.toString())
+        // let _a = result.toString().split('').reverse();
+        // let _b = _a.length
+        // if (_a.length < 8) {
+        //     for (let i = 0; i < 8 - _b; i++) {
+        //         _a.push('0');
+        //     }
+        // }
+        // _a.splice(8, 0, ".")
+        // if (_a[_a.length - 1] == '.') {
+        //     _a.push('0')
+        // }
+        // let _c = _a.reverse().join('');
 
         
-        return {priceWei:this.ether.utils.parseEther(_c).toString(),price:_c};
+        return {priceWei:this.ether.utils.parseEther(result.toString()).toString(),price:result.toString()};
     }
 
     async balanceOf(_address) {

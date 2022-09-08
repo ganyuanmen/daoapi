@@ -1,5 +1,4 @@
-const ethToken_abi={address:'0x1F578a52224960fCc1BB8e29b59B028179b8476f',
- abi:[
+const ethToken_abi={abi:[
   {
     "inputs": [
       {
