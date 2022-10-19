@@ -211,4 +211,5 @@ const eventSum_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=eventSum_abi;

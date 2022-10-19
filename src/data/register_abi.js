@@ -266,4 +266,5 @@ const register_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=register_abi;

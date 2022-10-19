@@ -266,4 +266,5 @@ const commulate_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=commulate_abi;

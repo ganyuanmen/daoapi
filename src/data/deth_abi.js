@@ -654,4 +654,5 @@ const deth_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=deth_abi;

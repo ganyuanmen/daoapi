@@ -157,4 +157,5 @@ const logo_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=logo_abi;

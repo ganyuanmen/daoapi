@@ -100,4 +100,5 @@ const value_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=value_abi;

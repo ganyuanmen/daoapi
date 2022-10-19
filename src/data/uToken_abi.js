@@ -633,4 +633,5 @@ const uToken_abi={abi:[
     "type": "receive"
   }
 ]};
+
  module.exports=uToken_abi;

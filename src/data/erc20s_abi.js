@@ -864,4 +864,5 @@ const erc20s_abi={abi:[
     "type": "function"
   }
 ]};
+
  module.exports=erc20s_abi;
