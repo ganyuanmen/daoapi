@@ -459,5 +459,4 @@ const appInfo_abi={abi:[
     "type": "function"
   }
 ]};
-
  module.exports=appInfo_abi;

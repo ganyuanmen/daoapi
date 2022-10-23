@@ -4,5 +4,4 @@ const viewCall_abi={abi:[
     "type": "fallback"
   }
 ]};
-
  module.exports=viewCall_abi;

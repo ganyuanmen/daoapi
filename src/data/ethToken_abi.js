@@ -78,5 +78,4 @@ const ethToken_abi={abi:[
     "type": "function"
   }
 ]};
-
  module.exports=ethToken_abi;

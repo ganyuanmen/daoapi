@@ -80,5 +80,4 @@ local:{
 }
 
 };
-
  module.exports = daismAddress;

@@ -277,5 +277,4 @@ const app_abi={abi:[
     "type": "function"
   }
 ]};
-
  module.exports=app_abi;
