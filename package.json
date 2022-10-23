@@ -1,5 +1,5 @@
 {
-  "name": "daoapi",
+  "name": "DaoApi",
   "version": "1.0.30",
   "description": "道易程 api",
   "main": "./src/index.js",

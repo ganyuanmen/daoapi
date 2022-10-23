@@ -14,7 +14,7 @@ const Dao_app = require("./interface/Dao_app");
  const daismAddress = require('./data/address');
 
 
-class DaoApi {
+ module.exports.DaoApi =class DaoApi {
     
     get provider(){return this.etherProvider.getSigner?this.etherProvider.getSigner(0):this.etherProvider}
     get dao_commulate() { if (!this.dao_commulate_obj) this.dao_commulate_obj = new Dao_commulate(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['commulate']); return this.dao_commulate_obj; }
@@ -63,4 +63,3 @@ if (typeof window === 'object') {
     window.Daoapi.default = window.Daoapi;
 }
 
-module.exports = DaoApi
