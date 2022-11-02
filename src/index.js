@@ -13,6 +13,9 @@ const Dao_app = require("./interface/Dao_app");
  const Dao_appInfo = require("./interface/Dao_appInfo");
  const daismAddress = require('./data/address');
 
+ const v=require('../package.json')
+
+ console.log(v)
 
  module.exports.DaoApi =class DaoApi {
     
@@ -30,7 +33,7 @@ const Dao_app = require("./interface/Dao_app");
     get dao_register() { if (!this.dao_register_obj) this.dao_register_obj = new Dao_register(this.ether,this.provider, this.selectedAccount,this.dao_value,daismAddress[this.network]['register']); return this.dao_register_obj; }
     get dao_appInfo() { if (!this.dao_appInfo_obj) this.dao_appInfo_obj = new Dao_appInfo(this.ether,this.provider, this.selectedAccount,daismAddress[this.network]['appInfo']); return this.dao_appInfo_obj; }
   
-    get version(){return '1.0.24';}
+    get version(){return v.version;}
 
 
     constructor(_ether,_etherProvider, _selectAccount,_network) {
