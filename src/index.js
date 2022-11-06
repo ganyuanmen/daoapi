@@ -15,7 +15,6 @@ const Dao_app = require("./interface/Dao_app");
 
  const v=require('../package.json')
 
- console.log(v)
 
  module.exports.DaoApi =class DaoApi {
     
