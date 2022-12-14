@@ -23,7 +23,7 @@ npm install jszip --save 或 yarn add jszip
 
  ```js
  import { ethers } from "ethers";
- import Daoapi from "daoapi" 或 const Daoapi=require("daoapi")
+ import { DaoApi } from "daoapi" 
  ```
 
 
@@ -37,8 +37,9 @@ npm install jszip --save 或 yarn add jszip
 ## webpack 项目使用示例
 ```js
 import { ethers } from "ethers";
+import { DaoApi } from "daoapi"
 import Web3Modal from "web3modal";
-import Daoapi from "daoapi"
+
 
 //连接钱包
 async function connect() {
@@ -65,7 +66,7 @@ async function onConnect() {
     const provider=connect()
     let account=provider.selectedAddress
     let _network="goerli" // 允许取值goerli,ropsten,mainnet,local
-    let daoapi = new Daoapi(ethers, provider,account,_network)
+    let daoapi = new DaoApi(ethers, provider,account,_network)
     console.log(daoapi.version)
  
   //修改地址：
@@ -137,13 +138,13 @@ onConnect()
 ## nodejs 使用示例
 ```js
  const { ethers } = require("ethers");
- const  Daoapi = require("Daoapi");
+ const { DaoApi } = require("DaoApi");
  let privateKey = "113d3edf949820b4c3b91d9311b31f903bb15d1e317b46efe29828f0e3fdb517";
 
  let provider = ethers.getDefaultProvider('goerli');
  let wallet = new ethers.Wallet(privateKey,provider);
  let _network="goerli" // 允许取值goerli,ropsten,mainnet,local
- let daoapi = new Daoapi(ethers, wallet,wallet.address,_network)
+ let daoapi = new DaoApi(ethers, wallet,wallet.address,_network)
  console.log(daoapi.version)
 
 //修改地址：

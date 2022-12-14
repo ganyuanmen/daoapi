@@ -1,7 +1,17 @@
 const app_abi=require('../data/app_abi');
+/**
+ * app地址登记
+ */
 class Dao_app
 {
-   //添加app
+   
+   /**
+    * app 地址登记
+    * @param {string} _name 名称
+    * @param {string} _desc  描述
+    * @param {string} _to 地址
+    * @returns 
+    */
     async  addApp(_name,_desc,_to) {    
         if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
         let result = await this.contract.addApp(_name,_desc,_to);
@@ -10,14 +20,14 @@ class Dao_app
    }
 
 
-setAddress(_address)
-{
-    this.address=_address;
-}
-setAbi(_abi)
-{
-    this.abi=_abi;
-}
+    setAddress(_address)
+    {
+        this.address=_address;
+    }
+    setAbi(_abi)
+    {
+        this.abi=_abi;
+    }
 
 
     constructor(_ether,_etherProvider,_selectAccount,_address) {

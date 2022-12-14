@@ -1,15 +1,22 @@
 const ethToken_abi=require('../data/ethToken_abi');
+/**
+ * ETH 直接兑换 otken
+ */
 class Dao_ethToken
 {
   
-    
+    /**
+     * eth兑换token
+     * @param {number} _eth  ETH 值
+     * @param {int} _id  tokn ID
+     * @returns 
+     */
     async ethToToken(_eth,_id) {
        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
        let e=await this.utoken.getEthToNDAOInputPrice(_eth+'');
        let e1=await this.commulate.wutokenToToken(e.outAmountWei,_id);
        let result= await this.contract.ETHToExactToken(e1.outAmountWei,e.outAmountWei,_id,{value:this.ether.utils.parseEther(_eth+'')})
        await result.wait()
-      
        return result;
       
     }

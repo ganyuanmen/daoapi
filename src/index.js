@@ -58,10 +58,10 @@ const Dao_app = require("./interface/Dao_app");
 }
 
 if (typeof window === 'object') {
-    window.Daoapi = function (_ether,_etherProvider, _selectAccount,_network) {
-        return new DaoApi(_ether,_etherProvider, _selectAccount,_network)
+    window.DaoApi = function (_ether,_etherProvider, _selectAccount,_network) {
+        return new module.exports.DaoApi(_ether,_etherProvider, _selectAccount,_network)
     }
 
-    window.Daoapi.default = window.Daoapi;
+    window.DaoApi.default = window.DaoApi;
 }
 

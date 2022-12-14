@@ -1,7 +1,16 @@
 const org_abi=require('../data/org_abi');
+/**
+ * 提案处理
+ */
 class Dao_org
 {
-    
+    /**
+     * 提供给投票的数据
+     * @param {int} _chainId  网络ID
+     * @param {int} _index dao 成员序号
+     * @param {string} _proHash  提案hash码
+     * @returns 
+     */
   getTypedData(_chainId,_index,_proHash){
     return {
       types: {
@@ -33,16 +42,35 @@ class Dao_org
       }
     }
   }
-  makeHash(_name,_address,_cause,_daoId,_status,_funcData){
+
+  /**
+   * 生成提案hash码
+   * @param {string} proName  提案名称
+   * @param {char[42]} proxyAddrss  代理地址
+   * @param {char[42]} executeAddrss 执行合约地址
+   * @param {int} daoId 
+   * @param {boolean} _status 提案状态
+   * @param {string} _funcData 函数及参数的编码
+   * @returns 
+   */
+  makeHash(proName,proxyAddrss,executeAddrss,daoId,_status,_funcData){
     let _ABICoder = new this.ether.utils.AbiCoder();
     return this.ether.utils.keccak256(_ABICoder.encode(
         ["tuple(string,address,address,uint32,bool,bytes)"],
-        [[_name,_address,_cause,_daoId,_status,_funcData]]))
+        [[proName,proxyAddrss,executeAddrss,daoId,_status,_funcData]]))
   }
 
+  /**
+   * 投票需要提供的参数
+   * @returns 
+   */
   singerType() {
-    return  {Permit: [{name: "index", type: "uint16"},{name: "owner", type: "address"}, 
-    {name: "_hash", type: "bytes32"}, {name: "deadline", type: "uint"}]}
+    return  {Permit: [
+      {name: "index", type: "uint16"},
+      {name: "owner", type: "address"}, 
+      {name: "_hash", type: "bytes32"}, 
+      {name: "deadline", type: "uint"}
+    ]}
   
   }
    
@@ -53,15 +81,26 @@ class Dao_org
    }
    
    
-    async  vote(_chainId, _index, _hash) {    
+    /**
+     * 投票
+     * @param {int} _chainId 
+     * @param {int} _index 
+     * @param {string} proHash 
+     * @returns 
+     */
+    async  vote(_chainId, _index, proHash) {    
     if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-    let typedData=this.getTypedData(_chainId,_index,_hash);
+    let typedData=this.getTypedData(_chainId,_index,proHash);
     let result = await this.etherProvider._signTypedData(typedData.domain,this.singerType(),typedData.message)
     return result;
 }
    
-
- makeSignature(signature){    
+/**
+ * 签名信息 转换为 执行提案所需要参数
+ * @param {string} signature 签名信息
+ * @returns 
+ */
+makeSignature(signature){    
     const signature00 = signature.substring(2);
     const r = "0x" + signature00.substring(0, 64);
     const s = "0x" + signature00.substring(64, 128);
@@ -69,34 +108,65 @@ class Dao_org
     return [v,r,s]
 }
 
-makePro(_name,_address,_cause,_daoId,_abi,_fname,_para)
+/**
+ * 生成提案
+ * @param {string} proName 提案名称
+ * @param {char[42]} proxyAddrss 代理地址
+ * @param {char[42]} executeAddrss  合约执行地址
+ * @param {int} daoId  
+ * @param {array} abiArray  abi数组
+ * @param {string} functionName 函数名称
+ * @param {string} paraneters  函数参数数组json格式 JSON.stringify([2,1])
+ * @returns 
+ */
+makePro(proName,proxyAddrss,executeAddrss,daoId,abiArray,functionName,paraneters)
 {
-    let ifa = new this.ether.utils.Interface(_abi);
-    let installData = ifa.encodeFunctionData(_fname,JSON.parse(_para));  
-    let _hash=this.makeHash(_name,_address,_cause,_daoId,false,installData)
+    let ifa = new this.ether.utils.Interface(abiArray);
+
+    //函数及参数的编码
+    let installData = ifa.encodeFunctionData(functionName,JSON.parse(paraneters));  
+    let proHash=this.makeHash(proName,proxyAddrss,executeAddrss,daoId,false,installData)
     return {
-        name:_name,
-        app:_address, //实际执行的合约
-        cause:_cause,  //安装的合约
-        daoId:_daoId,
-        functionName:_fname,
-        functionPara:_para,
+        name:proName,
+        app:proxyAddrss, 
+        cause:executeAddrss, 
+        daoId,
+        functionName,
+        functionPara:paraneters,
         status:false,
-        proHash:_hash,
+        proHash,
         data:installData
     }
 }
 
-async  exec(data,_hash,_name,_address,_cause,_daoId,_abi,_fname,_para) {
+/**
+ * 执行提案
+ * @param {Array} data 签名数据 [{dao_index,vote_address,vote_singer}]
+ * @param {string} proHash 提案hash码
+ * @param {string} proName 提案名称
+ * @param {char[42]} proxyAddrss 代理地址
+ * @param {char[42]} executeAddrss  执行合约地址
+ * @param {int} daoId 
+ * @param {Array} abiArray  abi数组
+ * @param {string} functionName 执行函数名称
+ * @param {string} paraneters  函数参数数组json格式 JSON.stringify([2,1])
+ * @returns 
+ */
+async  exec(data,proHash,proName,proxyAddrss,executeAddrss,daoId,abiArray,functionName,paraneters) {
     let eip712Sign = []
     for(let i = 0;i < data.length;i++){
-        eip712Sign.push([data[i]['dao_index'],data[i]['vote_address'],_hash,'1000000000000000',...this.makeSignature(data[i]['vote_singer'])])
+        eip712Sign.push([
+          data[i]['dao_index'],
+          data[i]['vote_address'],
+          proHash,
+          '1000000000000000',
+          ...this.makeSignature(data[i]['vote_singer'])
+        ])
     }
-    const delOrg = await this.daoValue.getOrg(_daoId)
+    const delOrg = await this.daoValue.getOrg(daoId); //根据daoId获取代理地址
     let _delOrgC = new this.ether.Contract(delOrg,this.abi , this.etherProvider);
-    let _pro = this.makePro(_name,_address,_cause,_daoId,_abi,_fname,_para)
-    let result = await  _delOrgC.exec(eip712Sign,_hash,_pro,{gasLimit:'6400000'})
-   // const _gas = await this.contract.estimateGas.exec(_eip712Sign, _proHash, _pro);
+    let _pro = this.makePro(proName,proxyAddrss,executeAddrss,daoId,abiArray,functionName,paraneters)
+    let result = await  _delOrgC.exec(eip712Sign,proHash,_pro,{gasLimit:'6400000'})
     await result.wait();
     return result;
 }
