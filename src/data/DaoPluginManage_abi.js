@@ -1,19 +1,19 @@
-const appInfo_abi={abi:[
+const DaoPluginManage_abi={abi:[
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "_global",
+        "name": "dao_software_version_control",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_allApp",
+        "name": "dao_system_manage",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_register",
+        "name": "turn_to_static_call",
         "type": "address"
       }
     ],
@@ -25,21 +25,21 @@ const appInfo_abi={abi:[
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "dao_delegator_full_id",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
         "internalType": "uint128",
-        "name": "appNumber",
+        "name": "software_id",
         "type": "uint128"
       },
       {
         "indexed": true,
         "internalType": "uint128",
-        "name": "infosIndex",
+        "name": "software_version_id",
         "type": "uint128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
       }
     ],
     "name": "Install",
@@ -51,7 +51,7 @@ const appInfo_abi={abi:[
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "appIndex",
+        "name": "dao_delegator_full_id",
         "type": "uint256"
       }
     ],
@@ -64,20 +64,32 @@ const appInfo_abi={abi:[
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "appIndex",
+        "name": "dao_delegator_full_id",
         "type": "uint256"
       },
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "newApp",
-        "type": "uint256"
+        "internalType": "uint128",
+        "name": "software_old_id",
+        "type": "uint128"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint128",
+        "name": "software_new_id",
+        "type": "uint128"
       },
       {
         "indexed": false,
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "software_version_old_id",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "software_version_new_id",
+        "type": "uint128"
       }
     ],
     "name": "Replace",
@@ -89,11 +101,11 @@ const appInfo_abi={abi:[
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "appIndex",
+        "name": "dao_delegator_full_id",
         "type": "uint256"
       }
     ],
-    "name": "UnInstall",
+    "name": "Uninstall",
     "type": "event"
   },
   {
@@ -102,14 +114,26 @@ const appInfo_abi={abi:[
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "appIndex",
+        "name": "dao_delegator_full_id",
         "type": "uint256"
       },
       {
+        "indexed": true,
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
+      },
+      {
         "indexed": false,
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "software_version_old_id",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "software_version_new_id",
+        "type": "uint128"
       }
     ],
     "name": "Update",
@@ -117,110 +141,12 @@ const appInfo_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "allApp",
+    "name": "daoSoftwareVersionControl",
     "outputs": [
       {
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "delToIndex",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_app",
-        "type": "address"
-      }
-    ],
-    "name": "getAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_app",
-        "type": "address"
-      }
-    ],
-    "name": "getDaoID",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint128",
-        "name": "daoIndex",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "appIndex",
-        "type": "uint128"
-      }
-    ],
-    "name": "getInfo",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint16",
-            "name": "version",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint32",
-            "name": "index",
-            "type": "uint32"
-          },
-          {
-            "internalType": "address",
-            "name": "delegate",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct AppInfoGlobal.info",
-        "name": "",
-        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -228,7 +154,7 @@ const appInfo_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "global",
+    "name": "daoSystemManage",
     "outputs": [
       {
         "internalType": "address",
@@ -243,18 +169,113 @@ const appInfo_abi={abi:[
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "name": "delegatorAmount",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "delegatorToDelegatorFullId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "garbageCan",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegator",
+        "type": "address"
+      }
+    ],
+    "name": "getProxyTarget",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegator",
+        "type": "address"
+      }
+    ],
+    "name": "getStatusIsNormal",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "dao_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "index",
+        "name": "software_id",
         "type": "uint128"
       },
       {
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
       }
     ],
     "name": "install",
@@ -272,55 +293,12 @@ const appInfo_abi={abi:[
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "installIndexs",
-    "outputs": [
-      {
-        "internalType": "uint128",
-        "name": "",
-        "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_from",
-        "type": "address"
-      }
-    ],
-    "name": "isAllow",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "dao_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "appIndex",
+        "name": "dao_delegator_id",
         "type": "uint128"
       }
     ],
@@ -330,39 +308,26 @@ const appInfo_abi={abi:[
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "register",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "dao_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "appIndex",
+        "name": "dao_delegator_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "index",
+        "name": "software_id",
         "type": "uint128"
       },
       {
-        "internalType": "uint16",
-        "name": "_version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
       }
     ],
     "name": "replace",
@@ -374,21 +339,39 @@ const appInfo_abi={abi:[
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "index",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "name": "softwareInstallInfos",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "software_id",
         "type": "uint128"
       },
       {
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
+      },
+      {
+        "internalType": "address",
+        "name": "delegator",
+        "type": "address"
       }
     ],
-    "name": "setOrg",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "turnToStaticCall",
     "outputs": [
       {
         "internalType": "address",
@@ -396,37 +379,19 @@ const appInfo_abi={abi:[
         "type": "address"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "dao_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "appIndex",
-        "type": "uint128"
-      }
-    ],
-    "name": "stop",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint128",
-        "name": "daoIndex",
-        "type": "uint128"
-      },
-      {
-        "internalType": "uint128",
-        "name": "appIndex",
+        "name": "dao_delegator_id",
         "type": "uint128"
       }
     ],
@@ -438,18 +403,18 @@ const appInfo_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
-      },
-      {
         "internalType": "uint128",
-        "name": "daoIndex",
+        "name": "dao_id",
         "type": "uint128"
       },
       {
         "internalType": "uint128",
-        "name": "appIndex",
+        "name": "dao_delegator_id",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "software_version_id",
         "type": "uint128"
       }
     ],
@@ -459,4 +424,4 @@ const appInfo_abi={abi:[
     "type": "function"
   }
 ]};
- module.exports=appInfo_abi;
+ module.exports=DaoPluginManage_abi;

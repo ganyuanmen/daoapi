@@ -3,7 +3,7 @@ const commulate_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "_iadd",
+        "name": "init_iadd",
         "type": "address"
       }
     ],
@@ -11,20 +11,49 @@ const commulate_abi={abi:[
     "type": "constructor"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "eip3712_token_amount_A",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "pool_id_A",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pool_id_B",
         "type": "uint256"
       }
     ],
-    "name": "NDAOToExactToken",
+    "name": "DaoTokenToDaoToken",
     "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "",
@@ -35,24 +64,13 @@ const commulate_abi={abi:[
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ndaoAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "NDAOToToken",
+    "inputs": [],
+    "name": "_iadd",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "address",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -62,146 +80,21 @@ const commulate_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "token_out_amount",
+        "name": "eip3712_token_amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "NDAOToTokenOutputPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ndaoAmount",
+        "name": "pool_id_A",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "pool_id_B",
         "type": "uint256"
       }
     ],
-    "name": "TokenToExactNDAO",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id1",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id2",
-        "type": "uint256"
-      }
-    ],
-    "name": "TokenToExactToken",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "TokenToNDAO",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ndao_out_amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "TokenToNDAOOutputPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "TokenAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id1",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "id2",
-        "type": "uint256"
-      }
-    ],
-    "name": "TokenToToken",
+    "name": "daoTokenToExactDaoToken",
     "outputs": [
       {
         "internalType": "uint256",
@@ -221,16 +114,16 @@ const commulate_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "ndaoAmount",
+        "name": "unit_token_amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "pool_id",
         "type": "uint256"
       }
     ],
-    "name": "getPowerPoolPriceNDAOToToken",
+    "name": "daoTokenToExactUnitToken",
     "outputs": [
       {
         "internalType": "uint256",
@@ -245,16 +138,97 @@ const commulate_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenAmount",
+        "name": "eip3712_token_amount",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "pool_id",
         "type": "uint256"
       }
     ],
-    "name": "getPowerPoolPriceTokenToNDAO",
+    "name": "daoTokenToUnitToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "unit_token_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pool_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "unitTokenToDaoToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eip3712_token_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pool_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "unitTokenToExactDaoToken",
     "outputs": [
       {
         "internalType": "uint256",

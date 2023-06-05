@@ -1,9 +1,14 @@
-const erc20s_abi={abi:[
+const DaoToken_abi={abi:[
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "_registe",
+        "name": "_iadd_init",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "dao_registrar",
         "type": "address"
       }
     ],
@@ -16,7 +21,7 @@ const erc20s_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -47,20 +52,20 @@ const erc20s_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256[]",
-        "name": "ids",
+        "name": "eip3712_ids",
         "type": "uint256[]"
       },
       {
-        "indexed": true,
-        "internalType": "address",
+        "indexed": false,
+        "internalType": "address[]",
         "name": "from",
-        "type": "address"
+        "type": "address[]"
       },
       {
-        "indexed": true,
-        "internalType": "address",
+        "indexed": false,
+        "internalType": "address[]",
         "name": "to",
-        "type": "address"
+        "type": "address[]"
       },
       {
         "indexed": false,
@@ -77,30 +82,12 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "address[]",
-        "name": "from",
-        "type": "address[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "value",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "ApproveBatchNoIndexed",
+    "name": "CreateEIP3712",
     "type": "event"
   },
   {
@@ -108,20 +95,14 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint32",
-        "name": "id",
-        "type": "uint32"
+        "internalType": "uint128",
+        "name": "dao_id",
+        "type": "uint128"
       },
       {
         "indexed": true,
         "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
+        "name": "eip3712_id",
         "type": "uint256"
       }
     ],
@@ -134,7 +115,7 @@ const erc20s_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -165,20 +146,20 @@ const erc20s_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256[]",
-        "name": "ids",
+        "name": "eip3712_ids",
         "type": "uint256[]"
       },
       {
-        "indexed": true,
-        "internalType": "address",
+        "indexed": false,
+        "internalType": "address[]",
         "name": "from",
-        "type": "address"
+        "type": "address[]"
       },
       {
-        "indexed": true,
-        "internalType": "address",
+        "indexed": false,
+        "internalType": "address[]",
         "name": "to",
-        "type": "address"
+        "type": "address[]"
       },
       {
         "indexed": false,
@@ -191,55 +172,61 @@ const erc20s_abi={abi:[
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
+    "inputs": [],
+    "name": "_iadd",
+    "outputs": [
       {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "address[]",
-        "name": "from",
-        "type": "address[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "address[]",
-        "name": "to",
-        "type": "address[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "value",
-        "type": "uint256[]"
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
-    "name": "TransferBatchNoIndexed",
-    "type": "event"
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowanceGlobal",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "",
         "type": "uint256"
       },
       {
         "internalType": "address",
-        "name": "owner",
+        "name": "",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "spender",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "allowance",
+    "name": "allowances",
     "outputs": [
       {
         "internalType": "uint256",
@@ -253,32 +240,8 @@ const erc20s_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "bool",
-        "name": "_status",
-        "type": "bool"
-      }
-    ],
-    "name": "approve",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -307,16 +270,16 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "spender",
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        "internalType": "bool",
+        "name": "permissions",
+        "type": "bool"
       }
     ],
-    "name": "approveAll",
+    "name": "approveGlobal",
     "outputs": [
       {
         "internalType": "bool",
@@ -324,14 +287,14 @@ const erc20s_abi={abi:[
         "type": "bool"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -354,30 +317,17 @@ const erc20s_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_reg",
-        "type": "address"
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
       }
     ],
-    "name": "changeReguster",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
+    "name": "daoIdToEIP3712Id",
+    "outputs": [
       {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "name": "daoTo",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
       }
     ],
     "stateMutability": "view",
@@ -385,12 +335,12 @@ const erc20s_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "decimals",
+    "name": "daoRegistrar",
     "outputs": [
       {
-        "internalType": "uint8",
+        "internalType": "address",
         "name": "",
-        "type": "uint8"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -400,47 +350,33 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "subtractedValue",
+        "name": "",
         "type": "uint256"
       }
     ],
-    "name": "decreaseAllowance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "eip3712IdToDaoId",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "uint256[]",
-        "name": "_ids",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "eip3712_id",
+        "type": "uint256"
       }
     ],
-    "name": "getInfo",
+    "name": "eip3712Infos",
     "outputs": [
       {
         "components": [
-          {
-            "internalType": "uint32",
-            "name": "id",
-            "type": "uint32"
-          },
-          {
-            "internalType": "address",
-            "name": "manager",
-            "type": "address"
-          },
           {
             "internalType": "string",
             "name": "name",
@@ -462,28 +398,9 @@ const erc20s_abi={abi:[
             "type": "uint8"
           }
         ],
-        "internalType": "struct ERC20Info[]",
-        "name": "returnData",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32[]",
-        "name": "_ids",
-        "type": "uint32[]"
-      }
-    ],
-    "name": "getIsIssue",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
+        "internalType": "struct EIP3712Info",
         "name": "",
-        "type": "uint256[]"
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -491,26 +408,7 @@ const erc20s_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "iadd",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "name": "idTo",
+    "name": "fixedSupply",
     "outputs": [
       {
         "internalType": "uint256",
@@ -524,32 +422,9 @@ const erc20s_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "addedValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "increaseAllowance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_id",
-        "type": "uint32"
+        "internalType": "uint128",
+        "name": "dao_id",
+        "type": "uint128"
       }
     ],
     "name": "issue",
@@ -558,86 +433,21 @@ const erc20s_abi={abi:[
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "nextId",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "registe",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_iadd",
-        "type": "address"
+        "internalType": "uint128",
+        "name": "dao_id",
+        "type": "uint128"
       }
     ],
-    "name": "setIADD",
+    "name": "issueByManager",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "setStatus",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "status",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "totalSupply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalSupplyConstant",
+    "name": "next_eip3712_id",
     "outputs": [
       {
         "internalType": "uint256",
@@ -652,7 +462,7 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -681,13 +491,13 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256[]",
-        "name": "ids",
+        "name": "eip3712_ids",
         "type": "uint256[]"
       },
       {
-        "internalType": "address",
-        "name": "recipient",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "recipients",
+        "type": "address[]"
       },
       {
         "internalType": "uint256[]",
@@ -709,37 +519,8 @@ const erc20s_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "recipient",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "transferBatchMul",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
-        "name": "id",
+        "name": "eip3712_id",
         "type": "uint256"
       },
       {
@@ -773,18 +554,18 @@ const erc20s_abi={abi:[
     "inputs": [
       {
         "internalType": "uint256[]",
-        "name": "ids",
+        "name": "eip3712_ids",
         "type": "uint256[]"
       },
       {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "senders",
+        "type": "address[]"
       },
       {
-        "internalType": "address",
-        "name": "recipient",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "recipients",
+        "type": "address[]"
       },
       {
         "internalType": "uint256[]",
@@ -802,66 +583,6 @@ const erc20s_abi={abi:[
     ],
     "stateMutability": "nonpayable",
     "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "sender",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "recipient",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "transferFromBatchMul",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_id",
-        "type": "uint32"
-      }
-    ],
-    "name": "trnasferToIADD",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "zeroAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }
 ]};
- module.exports=erc20s_abi;
+ module.exports=DaoToken_abi;

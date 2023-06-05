@@ -29,9 +29,9 @@ npm install jszip --save 或 yarn add jszip
 
 使用ethers 连接到以太坊服务器后， 执行：
 ```js
- const etherProvider = new ethers.providers.Web3Provider(provider);
+ const ethersProvider = new ethers.providers.Web3Provider(provider);
  let _network="goerli" // 允许取值goerli,ropsten,mainnet,local
- let daoapi = new Daoapi(ethers, etherProvider,account,_network); //account 用户钱包地址
+ let daoapi = new Daoapi(ethers, ethersProvider,account,_network); //account 用户钱包地址
 ```
 
 ## webpack 项目使用示例
@@ -70,12 +70,12 @@ async function onConnect() {
     console.log(daoapi.version)
  
   //修改地址：
-  //daoapi.dao_commulate.setAddress("0x.....")
-  //daoapi.dao_uToken.setAddress("0x.....")
+  //daoapi.Commulate.setAddress("0x.....")
+  //daoapi.UnitToken.setAddress("0x.....")
 
   //修改api
-  //daoapi.dao_commulate.setAbi([])
-  //daoapi.dao_uToken.setAbi([])
+  //daoapi.Commulate.setAbi([])
+  //daoapi.UnitToken.setAbi([])
 
   //获限tokenId 为1的代币余额
   let result= await daoapi.dao_erc20s.balanceOf('1',account)
@@ -113,12 +113,12 @@ onConnect()
 			console.log(daoapi.version)
 		 
 		  //修改地址：
-		  //daoapi.dao_commulate.setAddress("0x.....")
-		  //daoapi.dao_uToken.setAddress("0x.....")
+		  //daoapi.Commulate.setAddress("0x.....")
+		  //daoapi.UnitToken.setAddress("0x.....")
 
 		  //修改api
-		  //daoapi.dao_commulate.setAbi([])
-		  //daoapi.dao_uToken.setAbi([])
+		  //daoapi.Commulate.setAbi([])
+		  //daoapi.UnitToken.setAbi([])
 
           //获限tokenId 为1的代币余额
 		  let result= await daoapi.dao_erc20s.balanceOf('1',account)
@@ -148,12 +148,12 @@ onConnect()
  console.log(daoapi.version)
 
 //修改地址：
-//daoapi.dao_commulate.setAddress("0x.....")
-//daoapi.dao_uToken.setAddress("0x.....")
+//daoapi.Commulate.setAddress("0x.....")
+//daoapi.UnitToken.setAddress("0x.....")
 
 //修改api
-//daoapi.dao_commulate.setAbi([])
-//daoapi.dao_uToken.setAbi([])
+//daoapi.Commulate.setAbi([])
+//daoapi.UnitToken.setAbi([])
 
 
  const getInfo=async (daoapi)=>{

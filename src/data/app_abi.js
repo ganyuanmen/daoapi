@@ -3,31 +3,19 @@ const app_abi={abi:[
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
+        "indexed": true,
+        "internalType": "enum SoftwareType",
+        "name": "software_type",
+        "type": "uint8"
       },
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "indexRec",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "manager",
-        "type": "address"
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
       }
     ],
-    "name": "AddApp",
+    "name": "AddSoftware",
     "type": "event"
   },
   {
@@ -35,68 +23,194 @@ const app_abi={abi:[
     "inputs": [
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "appNum",
-        "type": "uint256"
+        "internalType": "enum SoftwareType",
+        "name": "software_type",
+        "type": "uint8"
       },
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "rec",
-        "type": "uint256"
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
       },
       {
         "indexed": true,
-        "internalType": "uint256",
-        "name": "version",
-        "type": "uint256"
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
       }
     ],
-    "name": "AddVersion",
+    "name": "AddSoftwareVersion",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
     "type": "event"
   },
   {
     "inputs": [
       {
+        "internalType": "enum SoftwareType",
+        "name": "software_type",
+        "type": "uint8"
+      },
+      {
         "internalType": "string",
-        "name": "_name",
+        "name": "software_name",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "desc",
+        "name": "software_desc",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "software_version_desc",
         "type": "string"
       },
       {
         "internalType": "address",
-        "name": "_to",
+        "name": "software_proxytarget",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "software_plugin_manager",
         "type": "address"
       }
     ],
-    "name": "addApp",
-    "outputs": [],
+    "name": "addSoftware",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_name",
-        "type": "string"
+        "internalType": "enum SoftwareType",
+        "name": "software_type",
+        "type": "uint8"
       },
       {
         "internalType": "string",
-        "name": "desc",
+        "name": "software_version_desc",
         "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
       },
       {
         "internalType": "address",
-        "name": "_to",
+        "name": "software_proxytarget",
         "type": "address"
       }
     ],
-    "name": "addVersion",
+    "name": "addSoftwareVersion",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum SoftwareType",
+        "name": "software_type",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint128",
+        "name": "software_id",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "software_version_id",
+        "type": "uint128"
+      }
+    ],
+    "name": "getProxyTarget",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "next_software_plugin_id",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "next_software_system_id",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -105,103 +219,31 @@ const app_abi={abi:[
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "_index",
+        "name": "",
         "type": "uint128"
-      },
-      {
-        "internalType": "uint16",
-        "name": "version",
-        "type": "uint16"
       }
     ],
-    "name": "getAddress",
+    "name": "softwarePluginInfos",
     "outputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "manager",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_num",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAppInfo",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "manager",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "desc",
-            "type": "string"
-          },
-          {
-            "internalType": "uint16",
-            "name": "versions",
-            "type": "uint16"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "infos",
-            "type": "uint256[]"
-          }
-        ],
-        "internalType": "struct App.appVersion",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_num",
-        "type": "uint256"
       },
       {
-        "internalType": "uint16",
-        "name": "_versionNum",
-        "type": "uint16"
-      }
-    ],
-    "name": "getVersionInfo",
-    "outputs": [
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
       {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "desc",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct App.appInfo",
-        "name": "",
-        "type": "tuple"
+        "internalType": "string",
+        "name": "desc",
+        "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "latestVersion",
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -215,12 +257,12 @@ const app_abi={abi:[
         "type": "string"
       }
     ],
-    "name": "index",
+    "name": "softwarePluginNameToInfo",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
@@ -230,50 +272,119 @@ const app_abi={abi:[
     "inputs": [
       {
         "internalType": "uint128",
-        "name": "_index",
+        "name": "",
         "type": "uint128"
       },
       {
-        "internalType": "uint16",
-        "name": "_version",
-        "type": "uint16"
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
       }
     ],
-    "name": "isValid",
+    "name": "softwarePluginVersions",
     "outputs": [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
+        "internalType": "string",
+        "name": "desc",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "proxyTarget",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "nextAppInfos",
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "name": "softwareSystemInfos",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "desc",
+        "type": "string"
+      },
+      {
+        "internalType": "uint128",
+        "name": "latestVersion",
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "nextApps",
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "softwareSystemNameToInfo",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "",
+        "type": "uint128"
+      }
+    ],
+    "name": "softwareSystemVersions",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "desc",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "proxyTarget",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]};

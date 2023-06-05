@@ -1,6 +1,22 @@
-const uToken_abi={abi:[
+const GasToken_abi={abi:[
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name_",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "symbol_",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "unit_token",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -22,7 +38,7 @@ const uToken_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "value",
         "type": "uint256"
       }
     ],
@@ -54,111 +70,6 @@ const uToken_abi={abi:[
       {
         "indexed": true,
         "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "ethAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      }
-    ],
-    "name": "Swap",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "ethAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      }
-    ],
-    "name": "SwapDETHTo",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "ethAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "tokenAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      }
-    ],
-    "name": "SwapTo",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "from",
         "type": "address"
       },
@@ -171,62 +82,12 @@ const uToken_abi={abi:[
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "value",
         "type": "uint256"
       }
     ],
     "name": "Transfer",
     "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "DETH",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ETHUSDC",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "addethToNDAOInputPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint160",
-        "name": "",
-        "type": "uint160"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "inputs": [
@@ -266,7 +127,13 @@ const uToken_abi={abi:[
       }
     ],
     "name": "approve",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -274,7 +141,7 @@ const uToken_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "account",
         "type": "address"
       }
     ],
@@ -293,19 +160,18 @@ const uToken_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "sender",
         "type": "address"
-      }
-    ],
-    "name": "balances",
-    "outputs": [
+      },
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "amount",
         "type": "uint256"
       }
     ],
-    "stateMutability": "view",
+    "name": "burn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -335,18 +201,36 @@ const uToken_abi={abi:[
       }
     ],
     "name": "decreaseAllowance",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "endRecord",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "dethBurn",
+    "name": "feeInfo",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "feeTaker",
+        "type": "address"
+      },
+      {
+        "internalType": "uint16",
+        "name": "feeRate",
+        "type": "uint16"
       }
     ],
     "stateMutability": "view",
@@ -354,63 +238,31 @@ const uToken_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "ethBurn",
+    "name": "gasInfo",
     "outputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ethSupply",
-    "outputs": [
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
       {
-        "internalType": "uint256",
-        "name": "_ethSupply",
-        "type": "uint256"
-      }
-    ],
-    "name": "ethSupplyChange",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getPriceX96",
-    "outputs": [
-      {
-        "internalType": "uint160",
-        "name": "sqrtPriceX96",
-        "type": "uint160"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "highestPrice",
-    "outputs": [
+        "internalType": "uint32",
+        "name": "block_time",
+        "type": "uint32"
+      },
       {
         "internalType": "uint128",
-        "name": "",
+        "name": "rewardsPerGas",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount",
         "type": "uint128"
       }
     ],
@@ -431,7 +283,13 @@ const uToken_abi={abi:[
       }
     ],
     "name": "increaseAllowance",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -439,18 +297,38 @@ const uToken_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "_deth",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "ethUSDC",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "init",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "isAllowDelegatorMint",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isAllowNonDelegatorMint",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -487,33 +365,27 @@ const uToken_abi={abi:[
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "swap",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "feeTaker",
+            "type": "address"
+          },
+          {
+            "internalType": "uint16",
+            "name": "feeRate",
+            "type": "uint16"
+          }
+        ],
+        "internalType": "struct FeeInfo",
+        "name": "fee_info",
+        "type": "tuple"
       }
     ],
-    "name": "swapDETHTo",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
+    "name": "setFeeInfo",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -521,19 +393,54 @@ const uToken_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "delegator_manage",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "permissions",
+        "type": "bool"
+      }
+    ],
+    "name": "set_isAllowDelegatorMint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "non_delegator",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "permissions",
+        "type": "bool"
+      }
+    ],
+    "name": "set_isAllowNonDelegatorMint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "delegator_manage",
         "type": "address"
       }
     ],
-    "name": "swapTo",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "payable",
+    "name": "startRecord",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -629,8 +536,17 @@ const uToken_abi={abi:[
     "type": "function"
   },
   {
-    "stateMutability": "payable",
-    "type": "receive"
+    "inputs": [],
+    "name": "unitToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]};
- module.exports=uToken_abi;
+ module.exports=GasToken_abi;

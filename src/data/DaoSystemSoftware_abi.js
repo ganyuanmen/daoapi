@@ -1,37 +1,29 @@
-const org_abi={abi:[
+const DaoSystemSoftware_abi={abi:[
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "_DETH",
+        "name": "gas_token",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_eventSum",
+        "name": "event_happen_address",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_appInfo",
+        "name": "dao_system_manage",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "dao_plugin_manage",
         "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "DETH",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "inputs": [],
@@ -67,7 +59,7 @@ const org_abi={abi:[
         "type": "address"
       }
     ],
-    "name": "accountIndex",
+    "name": "accountId",
     "outputs": [
       {
         "internalType": "uint8",
@@ -86,7 +78,7 @@ const org_abi={abi:[
         "type": "uint256"
       }
     ],
-    "name": "accounts",
+    "name": "accountInfos",
     "outputs": [
       {
         "internalType": "address",
@@ -103,46 +95,20 @@ const org_abi={abi:[
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "all",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "appInfo",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
-        "name": "to",
+        "name": "plugin_delegator",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_app",
+        "name": "other_dao",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "_status",
+        "name": "permissions",
         "type": "bool"
       }
     ],
@@ -153,7 +119,33 @@ const org_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "eventSum",
+    "name": "daoPluginManage",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "daoSystemManage",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "eventHappenAddress",
     "outputs": [
       {
         "internalType": "address",
@@ -204,7 +196,7 @@ const org_abi={abi:[
             "type": "bytes32"
           }
         ],
-        "internalType": "struct Org.EIP712[]",
+        "internalType": "struct EIP712[]",
         "name": "eip712s",
         "type": "tuple[]"
       },
@@ -221,23 +213,28 @@ const org_abi={abi:[
             "type": "string"
           },
           {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
             "internalType": "address",
-            "name": "app",
+            "name": "plugin_delegator",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "cause",
+            "name": "execution_address",
             "type": "address"
           },
           {
-            "internalType": "uint32",
+            "internalType": "uint128",
             "name": "daoId",
-            "type": "uint32"
+            "type": "uint128"
           },
           {
             "internalType": "bool",
-            "name": "status",
+            "name": "is_external_proposal",
             "type": "bool"
           },
           {
@@ -246,14 +243,14 @@ const org_abi={abi:[
             "type": "bytes"
           }
         ],
-        "internalType": "struct pro",
+        "internalType": "struct Proposal",
         "name": "_pro",
         "type": "tuple"
       }
     ],
     "name": "exec",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -265,7 +262,7 @@ const org_abi={abi:[
       },
       {
         "internalType": "uint256",
-        "name": "amountAll",
+        "name": "amountTotalVotes",
         "type": "uint256"
       },
       {
@@ -281,23 +278,28 @@ const org_abi={abi:[
             "type": "string"
           },
           {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
             "internalType": "address",
-            "name": "app",
+            "name": "plugin_delegator",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "cause",
+            "name": "execution_address",
             "type": "address"
           },
           {
-            "internalType": "uint32",
+            "internalType": "uint128",
             "name": "daoId",
-            "type": "uint32"
+            "type": "uint128"
           },
           {
             "internalType": "bool",
-            "name": "status",
+            "name": "is_external_proposal",
             "type": "bool"
           },
           {
@@ -306,7 +308,7 @@ const org_abi={abi:[
             "type": "bytes"
           }
         ],
-        "internalType": "struct pro",
+        "internalType": "struct Proposal",
         "name": "_pro",
         "type": "tuple"
       }
@@ -319,6 +321,30 @@ const org_abi={abi:[
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "executionAddressCanUseInWhichPlugin",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "components": [
           {
             "internalType": "uint16",
@@ -356,7 +382,7 @@ const org_abi={abi:[
             "type": "bytes32"
           }
         ],
-        "internalType": "struct Org.EIP712[]",
+        "internalType": "struct EIP712[]",
         "name": "eip712s",
         "type": "tuple[]"
       },
@@ -373,23 +399,28 @@ const org_abi={abi:[
             "type": "string"
           },
           {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
             "internalType": "address",
-            "name": "app",
+            "name": "plugin_delegator",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "cause",
+            "name": "execution_address",
             "type": "address"
           },
           {
-            "internalType": "uint32",
+            "internalType": "uint128",
             "name": "daoId",
-            "type": "uint32"
+            "type": "uint128"
           },
           {
             "internalType": "bool",
-            "name": "status",
+            "name": "is_external_proposal",
             "type": "bool"
           },
           {
@@ -398,7 +429,7 @@ const org_abi={abi:[
             "type": "bytes"
           }
         ],
-        "internalType": "struct pro",
+        "internalType": "struct Proposal",
         "name": "_pro",
         "type": "tuple"
       },
@@ -415,24 +446,12 @@ const org_abi={abi:[
   },
   {
     "inputs": [],
-    "name": "getAccounts_Votes",
+    "name": "gasToken",
     "outputs": [
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
-          {
-            "internalType": "uint32",
-            "name": "vote",
-            "type": "uint32"
-          }
-        ],
-        "internalType": "struct Org.Account[20]",
+        "internalType": "address",
         "name": "",
-        "type": "tuple[20]"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -446,21 +465,21 @@ const org_abi={abi:[
         "components": [
           {
             "internalType": "address",
-            "name": "cause",
+            "name": "execution_address",
             "type": "address"
           },
           {
             "internalType": "uint32",
-            "name": "vote",
+            "name": "received_votes",
             "type": "uint32"
           },
           {
             "internalType": "bool",
-            "name": "isExternal",
+            "name": "is_external_proposal",
             "type": "bool"
           }
         ],
-        "internalType": "struct proStatus",
+        "internalType": "struct ProposalStatus",
         "name": "",
         "type": "tuple"
       },
@@ -468,42 +487,6 @@ const org_abi={abi:[
         "internalType": "uint32",
         "name": "",
         "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "_hash",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getVote",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "cause",
-            "type": "address"
-          },
-          {
-            "internalType": "uint32",
-            "name": "vote",
-            "type": "uint32"
-          },
-          {
-            "internalType": "bool",
-            "name": "isExternal",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct proStatus",
-        "name": "",
-        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -549,7 +532,7 @@ const org_abi={abi:[
             "type": "bytes32"
           }
         ],
-        "internalType": "struct Org.EIP712[]",
+        "internalType": "struct EIP712[]",
         "name": "eip712s",
         "type": "tuple[]"
       },
@@ -573,18 +556,25 @@ const org_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "address[]",
-        "name": "_members",
-        "type": "address[]"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "vote",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct AccountInfo[]",
+        "name": "account_infos",
+        "type": "tuple[]"
       },
       {
-        "internalType": "uint32[]",
-        "name": "_votes",
-        "type": "uint32[]"
-      },
-      {
         "internalType": "address[]",
-        "name": "_cause",
+        "name": "init_isExecutionAddressCanUseInAllPlugin",
         "type": "address[]"
       }
     ],
@@ -596,19 +586,149 @@ const org_abi={abi:[
   {
     "inputs": [
       {
-        "internalType": "uint16",
-        "name": "index",
-        "type": "uint16"
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isExecutionAddressCanUseInAllPlugin",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isLock",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isPluginCanUseInAllExecutionAddress",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "isVoteAsOtherDaoAccount",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_account",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "pluginAllowances",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "name": "proposalStatus",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "execution_address",
         "type": "address"
       },
       {
         "internalType": "uint32",
-        "name": "_vote",
+        "name": "received_votes",
         "type": "uint32"
+      },
+      {
+        "internalType": "bool",
+        "name": "is_external_proposal",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "account_id",
+        "type": "uint8"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "vote",
+            "type": "uint32"
+          }
+        ],
+        "internalType": "struct AccountInfo",
+        "name": "account_info",
+        "type": "tuple"
       }
     ],
     "name": "setAccount",
@@ -620,16 +740,21 @@ const org_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "_cause",
+        "name": "execution_address",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "plugin_delegator",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "_status",
+        "name": "permissions",
         "type": "bool"
       }
     ],
-    "name": "setAllApp",
+    "name": "set_executionAddressCanUseInWhichPlugin",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -638,16 +763,16 @@ const org_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "_app",
+        "name": "execution_address",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "_status",
+        "name": "permissions",
         "type": "bool"
       }
     ],
-    "name": "setSingle",
+    "name": "set_isExecutionAddressCanUseInAllPlugin",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -656,37 +781,58 @@ const org_abi={abi:[
     "inputs": [
       {
         "internalType": "address",
-        "name": "_app",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_cause",
+        "name": "plugin_delegator",
         "type": "address"
       },
       {
         "internalType": "bool",
-        "name": "_status",
+        "name": "permisssions",
         "type": "bool"
       }
     ],
-    "name": "setSingleApp",
+    "name": "set_isPluginCanUseInAllExecutionAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tempHash",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalVotes",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_hash",
+        "name": "proposalHash",
         "type": "bytes32"
       }
     ],
-    "name": "setVote",
+    "name": "voteAsOtherDaoAccount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   }
 ]};
- module.exports=org_abi;
+ module.exports=DaoSystemSoftware_abi;

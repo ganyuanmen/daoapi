@@ -1,30 +1,29 @@
-const logo_abi=require('../data/logo_abi');
+const logo_abi=require('../data/DaoLogo_abi');
 const JSZip= require('jszip')
+const utils=require("../utils")
  /**
   * logo 处理
   */
- class Dao_logo {
+ class DaoLogo {
 
-    /**
-     * 根据daoId获取logo图片
+    /** 根据daoId获取logo图片
      * @param {int} id daoId
      * @returns 
      */
     async getLogo(id) {
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-        let re = await this.contract.getFile(id);
+        if(!this.contract)  this.contract=new this.ethers.Contract(this.address,this.abi , this.ethersProvider);
+        let re = await this.contract.daoLogos(id);
         let result= await this.get_async_file(re[0],re[1]);
         return {src: result};
     }
 
-   /**
-    * 异步处理文件，根据后缀名还原图片的base64编码
+   /** 异步处理文件，根据后缀名还原图片的base64编码
     * @param {string} file_type 图片文件后缀名
     * @param {string} bytesStr 图片16进制编码
     * @returns 
     */
    get_async_file(file_type, bytesStr) {
-        let p = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             //16进制的文件编码 转成 Uint8Array格式的数组
             let len = bytesStr.length / 2 - 1;
             let array = new Uint8Array(len);
@@ -68,43 +67,37 @@ const JSZip= require('jszip')
                 reader11.readAsDataURL(b)
             }
         });
-
-        return p
     }
 
-    /**
-     * 首次设置logo
+    /** 首次设置logo
      * @param {int} id  dao ID
      * @param {string} logo  logo 处理后的16进制码
      * @param {string} _type 图片后缀名
      * @returns 
      */
     async setLogo(id, logo,_type) {
-
-        if(!this.contract)  this.contract=new this.ether.Contract(this.address,this.abi , this.etherProvider);
-        const _gas = await this.contract.estimateGas.setLogo(id, logo, _type);
-        let result = await this.contract.setLogo(id, logo, _type,{gasLimit:parseInt(_gas.toString())+400000});
+        console.log([id, logo,_type])
+        this.genegateContract()
+       // let gasLimit=await utils.estimateGas(this.contract,'initLogo',[id, [_type,logo]],'6400000')
+       // console.log(gasLimit)
+      //  let result = await this.contract.initLogo(id, [_type,logo],gasLimit);
+        let result = await this.contract.initLogo(id, [_type,logo]);
         await result.wait()
         return result
     }
   
 
-    setAddress(_address)
-    {
-        this.address=_address;
+    genegateContract(){
+        if(!this.contract)  this.contract=new this.ethers.Contract(this.address,this.abi , this.ethersProvider);   
     }
-    setAbi(_abi)
-    {
-        this.abi=_abi;
-    }
-    constructor(_ether,_etherProvider,_selectAccount,_address) {
-        this.etherProvider=_etherProvider;this.ether=_ether;
-        this.contract=undefined;
-        this.selectedAccount=_selectAccount;
+      
+    constructor(_ethers,_ethersProvider,_account,_address) {
+        this.ethersProvider=_ethersProvider;this.ethers=_ethers;
+        this.account=_account;
         this.address=_address;   
         this.abi=logo_abi.abi
 
     }
 }
 
-module.exports=Dao_logo
+module.exports=DaoLogo
