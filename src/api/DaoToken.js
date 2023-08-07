@@ -55,8 +55,8 @@ const utils=require("../utils")
      */
     async approveGlobal(_spaneraddress,_status) {
         this.genegateContract()
-        let gasLimit=await utils.estimateGas(this.contract,'approveGlobal',[_spaneraddress,_status],'100000')
-        let re=  await this.contract.approveGlobal(_spaneraddress,_status,gasLimit);
+        // let gasLimit=await utils.estimateGas(this.contract,'approveGlobal',[_spaneraddress,_status],'100000')
+        let re=  await this.contract.approveGlobal(_spaneraddress,_status);
         await re.wait()
         return re;
     }

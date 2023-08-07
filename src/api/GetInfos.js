@@ -21,16 +21,15 @@ class GetInfos {
     async  getAccount_Votes(_id) {    
         this.genegateContract()
         let result= await this.contract.getAccount_Votes(_id);
-        let _acar=[]; //成员
-        // let _vtar=[]; //票权
-        for(let i=0;i<result.length;i++)
-        {
-            if(parseInt(result[i]['vote'])>0) {
-            _acar.push({account:result[i]["account"],vote:result[i]["vote"]})
-            } else break;
-            
-        }
-        return _acar;
+        // let _acar=[]; //成员
+        // // let _vtar=[]; //票权
+        // for(let i=0;i<result.length;i++)
+        // {
+        //   //  if(result[i]['account']!=='0x0000000000000000000000000000000000000000') {
+        //         _acar.push({account:result[i]["account"],vote:result[i]["vote"],memberIndex:i})
+        //   //  }          
+        // }
+        return result;
     }
     
     genegateContract(){

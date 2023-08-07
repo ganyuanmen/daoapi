@@ -130,9 +130,12 @@ class DaoSystemSoftware
           functionPara:paraneters,
           status:false,
           proHash,
-          data:installData
+          data:installData,
+          abi:abiArray
       }
   }
+
+  
 
   /**
    * 执行提案
@@ -160,6 +163,8 @@ class DaoSystemSoftware
           ])
       }
   
+      let arr=eip712Sign.sort(function (x, y) {if (x[1] < y[1]) return -1;if (x[1] > y[1]) return 1;return 0;});
+      
       let _pro = this.makePro(proName,proxyAddrss,executeAddrss,daoId,abiArray,functionName,paraneters)
       const delOrg = await this.infoObj.softwareInstallInfos(daoId); //根据daoId获取代理地址
       let _delOrgC = new this.ethers.Contract(delOrg['delegator'],this.abi , this.ethersProvider);
@@ -173,10 +178,19 @@ class DaoSystemSoftware
         data:_pro.data
       }
    //   let gasLimit=await utils.estimateGas(_delOrgC,'exec',[eip712Sign,proHash,paraPro],'6400000')
-      let result = await _delOrgC.exec(eip712Sign,proHash,paraPro,{gasLimit:'6400000'})
+      let result = await _delOrgC.exec(arr,proHash,paraPro,{gasLimit:'6400000'})
       await result.wait();
       return result;
   }
+
+//   async  setMember(daoId,_index,_address,_vote) {
+//     const delOrg = await this.infoObj.softwareInstallInfos(daoId); //根据daoId获取代理地址
+//     let _delOrgC = new this.ethers.Contract(delOrg['delegator'],this.abi , this.ethersProvider); //用代理地址创建合约
+//     let result = await _delOrgC.setAccount(_index,[_address,_vote]) //调用
+//     await result.wait();
+//     return result;
+// }
+
 
   constructor(_ethers,_ethersProvider,_account,_address,_infoObj) {
       this.ethersProvider=_ethersProvider;this.ethers=_ethers;
@@ -186,5 +200,7 @@ class DaoSystemSoftware
       this.infoObj=_infoObj;
   }
 }
+
+
 
 module.exports=DaoSystemSoftware

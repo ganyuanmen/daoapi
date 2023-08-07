@@ -76,21 +76,21 @@ const utils=require('../utils')
         return tx;
     }
       
-    /**
-     * eth 兑换 utoken 指定utoken
-     * @param {address} _to 
-     * @param {address} _utoken  得到utoken数量
-     * @returns 
-     */
-    async swapExactUnitToken(_to,_utoken) {
-        this.genegateContract()
-        let utoken=this.ethers.utils.parseEther(_utoken+'')
-       // let gasLimit=await utils.estimateGas(this.contract,'swapExactUnitToken',[_to,utoken],'100000')
-       // let tx = await this.contract.swapExactUnitToken(_to,utoken,gasLimit);
-       let tx = await this.contract.swapExactUnitToken(_to,utoken);
-        await tx.wait();
-        return tx;
-    }
+    // /**
+    //  * eth 兑换 utoken 指定utoken
+    //  * @param {address} _to 
+    //  * @param {address} _utoken  得到utoken数量
+    //  * @returns 
+    //  */
+    // async swapExactUnitToken(_to,_utoken) {
+    //     this.genegateContract()
+    //     let utoken=this.ethers.utils.parseEther(_utoken+'')
+    //    // let gasLimit=await utils.estimateGas(this.contract,'swapExactUnitToken',[_to,utoken],'100000')
+    //    // let tx = await this.contract.swapExactUnitToken(_to,utoken,gasLimit);
+    //    let tx = await this.contract.swapExactUnitToken(_to,utoken);
+    //     await tx.wait();
+    //     return tx;
+    // }
 
     /** GasToken 兑换 utoken 指定GasToken
      * @param {address} _to 
@@ -107,21 +107,21 @@ const utils=require('../utils')
         return tx;
     }
    
-      /**
-     * GasToken 兑换 utoken 指定utoken
-     * @param {address} _to 
-     * @param {address} _utoken  得到utoken数量
-     * @returns 
-     */
-    async swapExactUnitTokenByGasToken(_to,_utoken) {
-        this.genegateContract()
-        let utoken=this.ethers.utils.parseEther(_utoken+'')
-       // let gasLimit=await utils.estimateGas(this.contract,'swapExactUnitTokenByGasToken',[_to,utoken],'100000')
-       // let tx = await this.contract.swapExactUnitTokenByGasToken(_to,utoken,gasLimit);
-        let tx = await this.contract.swapExactUnitTokenByGasToken(_to,utoken);
-        await tx.wait();
-        return tx;
-    }
+    //   /**
+    //  * GasToken 兑换 utoken 指定utoken
+    //  * @param {address} _to 
+    //  * @param {address} _utoken  得到utoken数量
+    //  * @returns 
+    //  */
+    // async swapExactUnitTokenByGasToken(_to,_utoken) {
+    //     this.genegateContract()
+    //     let utoken=this.ethers.utils.parseEther(_utoken+'')
+    //    // let gasLimit=await utils.estimateGas(this.contract,'swapExactUnitTokenByGasToken',[_to,utoken],'100000')
+    //    // let tx = await this.contract.swapExactUnitTokenByGasToken(_to,utoken,gasLimit);
+    //     let tx = await this.contract.swapExactUnitTokenByGasToken(_to,utoken);
+    //     await tx.wait();
+    //     return tx;
+    // }
 
     genegateContract(){
         if(!this.contract)  this.contract=new this.ethers.Contract(this.address,this.abi , this.ethersProvider);   

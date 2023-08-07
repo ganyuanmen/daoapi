@@ -76,7 +76,7 @@ const utils=require("../utils")
      * @returns 
      */
     async setLogo(id, logo,_type) {
-        console.log([id, logo,_type])
+        // console.log(id, [_type,logo])
         this.genegateContract()
        // let gasLimit=await utils.estimateGas(this.contract,'initLogo',[id, [_type,logo]],'6400000')
        // console.log(gasLimit)
