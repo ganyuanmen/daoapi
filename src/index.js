@@ -19,6 +19,13 @@ const daismAddress = require('./data/address');
  module.exports.DaoApi =class DaoApi {
     
     get provider(){return this.ethersProvider.getSigner?this.ethersProvider.getSigner(0):this.ethersProvider}
+
+     
+    get CalcalateGas() { 
+        if (!this.dao_CalcalateGas_obj) this.dao_CalcalateGas_obj = new CalcalateGas(this.ethers); 
+        return this.dao_CalcalateGas_obj; 
+    }
+
     get Commulate() { 
         if (!this.dao_commulate_obj) 
             this.dao_commulate_obj = new Commulate(

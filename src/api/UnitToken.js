@@ -76,6 +76,16 @@ const utils=require('../utils')
         return tx;
     }
       
+    async swapGas(_to,_ethValue) {
+        console.log(_to,_ethValue)
+        this.genegateContract()
+        let ethValue=this.ethers.utils.parseEther(_ethValue+'')
+        let code=this.contract.interface.encodeFunctionData('swap',[_to])
+        let gas1=await this.ethersProvider.provider.estimateGas(this.address,code)
+        let gas2=await this.contract.estimateGas.swap(_to,{value: ethValue});
+        return this.ethers.utils.formatUnits(gas1.toNumber()+gas2.toNumber(),'gwei')          
+    }
+
     // /**
     //  * eth 兑换 utoken 指定utoken
     //  * @param {address} _to 
